@@ -120,11 +120,11 @@ function Header() {
 
     // Effect is used for transition of expanded state of search bar
     useEffect(() => {
-        let maxWidth = "0px";
+        let maxHeight = "0px";
         if (searchBarExpandedState){
-            maxWidth = "1000px"
+            maxHeight = "1000px"
         }
-        expandedSearchWidgetRef.current.style.maxHeight=maxWidth;
+        expandedSearchWidgetRef.current.style.maxHeight=maxHeight;
     })
 
     return (
@@ -160,7 +160,7 @@ function Header() {
                 {/* Expanded search bar */}
                 <form role="search" onSubmit="" className={`${searchBarExpandedState ? "grid " : " hidden "} mt-4 mx-4 grid-cols-1 z-100`}>
                     <div ref={expandedSearchWidgetRef} className={`${(locationWidgetExpandedState || servicesWidgetExpandedState) ? "bg-gray-50 " : "bg-transparent "} border rounded-full border-gray-300 
-                     self-center text-gray-300  mx-auto  flex max-h-0 transition-max-width duration-250
+                     self-center text-gray-300  mx-auto  flex max-h-0 transition-max-height duration-300
                       `}>
                         <div ref={locationWidgetRef} className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
                         border border-transparent m-[-1px] rounded-full flex`} onClick={locationWidgetClicked}>
