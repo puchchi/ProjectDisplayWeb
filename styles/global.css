@@ -5,6 +5,10 @@
 
 @layer utilities {
     .expanded-search-placeholder::placeholder{
-      @apply text-sm text-gray-600 font-normal
+      @apply text-sm text-textColor-light font-normal
+    }
+
+    .location-result-height{
+      max-height: calc(100vh - 220px);
     }
   }

@@ -21,6 +21,10 @@ module.exports = {
         },
         border:{
           DEFAULT: '#dddddd'
+        },
+        textColor:{
+          heavy:'#333333',
+          light: '#717171'
         }
       },
       maxWidth:{
@@ -46,7 +50,8 @@ module.exports = {
       },
       boxShadow:{
         search: '0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%)',
-        location: '0px 4px 8px rgb(0 0 0 / 20%), 0px 9px 16px rgb(0 0 0 / 15%)'
+        location: '2px 8px 16px rgb(0 0 0 / 20%), 2px 16px 32px rgb(0 0 0 / 15%)',
+        locationResult: '0px 6px 20px rgb(0 0 0 / 20%)'
       }
     },
     
