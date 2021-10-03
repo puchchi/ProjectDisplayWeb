@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, React } from 'react'
 import Link from 'next/link'
 import {
     PlacesAutocomplete,
@@ -6,15 +6,16 @@ import {
     getLatLng
 } from 'react-places-autocomplete';
 
-import data from '../data/common.json'
-import placeholder from '../data/placeholder.json'
-import uistring from '../data/uistring.json'
+import LocationWidget from './LocationWidget';
+
+import data from '../../data/common.json'
+import placeholder from '../../data/placeholder.json'
+import uistring from '../../data/uistring.json'
 
 import { SearchIcon } from '@heroicons/react/solid'
 import { MenuIcon } from '@heroicons/react/solid'
 import { UserCircleIcon } from '@heroicons/react/solid'
 import { XIcon } from '@heroicons/react/solid'
-import { LocationMarkerIcon } from '@heroicons/react/solid'
 
 const useFocus = () => {
     const htmlElRef = useRef(null)
@@ -36,14 +37,19 @@ function Header() {
 
     // State for storing input value of location widget
     const [locationWidgetValue, setLocationWidgetValue] = useState("")
+
+    // State for storing location search results
+    const [locationSuggestions, setLocationSuggestions] = useState([])  
     const [servicesWidgetValue, setServicesWidgetValue] = useState("")
+
+    // const [address, setAddress] = useState("")
 
     const headerRef = useRef(null);
     const locationWidgetRef = useRef(null);
     const servicesWidgetRef = useRef(null);
     const expandedSearchWidgetRef = useRef(null);
 
-    const [locationInputRef, setLocationInputFocus] = useFocus()
+    let [locationInputRef, setLocationInputFocus] = useFocus()
     const [servicesInputRef, setServicesInputFocus] = useFocus()
 
     const searchBarOnClick = (e) => {
@@ -52,6 +58,7 @@ function Header() {
         setLocationWidgetExpandedState(true)
         setLocationWidgetValue("")
         setServicesWidgetValue("")
+        setLocationSuggestions([])
     }
 
     const locationWidgetClicked = (e) => {
@@ -124,18 +131,6 @@ function Header() {
         )
     }
 
-    const LocationResultRender = ({ result }) => {
-        return (
-            <li className="flex py-2 pl-8 pr-4 cursor-pointer text-textColor-heavy hover:bg-gray-100">
-                <div className="bg-gray-200 border-gray-500 border-opacity-30  border min-w-[3rem] h-12 items-center justify-center flex mr-4 rounded-lg">
-                    <LocationMarkerIcon className="h-5" />
-                </div>
-                <div className=" overflow-clip flex items-center font-normal">{result}
-                </div>
-            </li>
-        )
-    }
-
     // Effect is used for transition of expanded state of search bar
     useEffect(() => {
         let maxHeight = "0px";
@@ -181,45 +176,21 @@ function Header() {
                      self-center text-gray-300  mx-auto  flex max-h-0 transition-max-height duration-200
                       `}>
                         {/* Location widget */}
+
                         <div ref={locationWidgetRef} className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
                         border border-transparent m-[-1px] rounded-full flex`} onClick={locationWidgetClicked}>
 
-                            <label className="cursor-pointer py-3.5 px-8 block z-1">
-                                <div>
-                                    <div className="font-bold text-xs pb-0.5 text-textColor-heavy tracking-wide">
-                                        {uistring.header.location}
-                                    </div>
-                                    <input autoFocus ref={locationInputRef} type="text" placeholder={placeholder.header.locationPlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium overflow-ellipsis
-                                 text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer md:w-48" onChange={e => setLocationWidgetValue(e.target.value)}
-                                        value={locationWidgetValue} />
-                                </div>
-                            </label>
-
-                            {/* Cross button in location widget */}
-                            <div className="relative">
-                                <div className={`${locationWidgetValue.length && locationWidgetExpandedState ? "inline " : "hidden "} absolute top-[55%] right-4  -translate-y-2/4`}>
-                                    <button type="button" className="rounded-full bg-gray-200 hover:bg-gray-300 text-black " onClick={() => setLocationWidgetValue("")} >
-                                        <XIcon className="h-6 p-[5px]" />
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Location search result */}
-                            <div className="absolute left-auto top-full rounded-[2rem] mt-3 overflow-x-hidden overflow-y-auto py-4  bg-white shadow-locationResult location-result-height">
-                                <section>
-                                    <div>
-                                        <ul className="overflow-ellipsis w-[30rem] pt-2">
-                                            <LocationResultRender result="First" />
-                                            <LocationResultRender result="Second" />
-                                            <LocationResultRender result="Third" />
-                                            <LocationResultRender result="Fourth" />
-                                            <LocationResultRender result="Fifth" />
-                                        </ul>
-                                    </div>
-                                </section>
-                            </div>
+                            <LocationWidget
+                                locationInputRef={el => locationInputRef = el}
+                                locationWidgetExpandedState={locationWidgetExpandedState}
+                                locationWidgetValue={locationWidgetValue}
+                                setLocationWidgetValue={setLocationWidgetValue}
+                                locationSuggestions = {locationSuggestions}
+                                setLocationSuggestions = {setLocationSuggestions}
+                            />
+                            
                         </div>
-
+                        
                         {/* Divider */}
                         <div className="self-center h-8 border-r border-gray-300"></div>
 
