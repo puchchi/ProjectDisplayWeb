@@ -11,4 +11,8 @@
     .location-result-height{
       max-height: calc(100vh - 220px);
     }
+
+    .user-detail-dd-list-item{
+      @apply py-3 px-4 hover:bg-gray-100
+    }
   }

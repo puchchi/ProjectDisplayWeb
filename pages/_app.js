@@ -1,13 +1,17 @@
-import '../styles/global.css'
+import '../styles/global.css';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 
 import HeadComp from '../components/HeadComp'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <HeadComp />
-      <Component {...pageProps} />
-    </>
+    <Provider store={store}>
+      <>
+        <HeadComp />
+        <Component {...pageProps} />
+      </>
+    </Provider>
   )
 }
 

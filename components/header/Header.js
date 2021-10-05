@@ -171,7 +171,7 @@ function Header() {
                         <div>
                             <button className="flex items-center rounded-full p-2 text-textColor-heavy border gap-1 ml-2 cursor-pointer hover:shadow-md transition-shadow duration-500"
                                 onClick={() => setShowUserDetailDropDown(true)}>
-                                <MenuIcon className="ml-1 h-4 " />
+                                <MenuIcon className="mx-1 h-4 " />
                                 <UserCircleIcon className="h-6" />
                             </button>
 

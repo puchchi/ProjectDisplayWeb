@@ -5,6 +5,8 @@
         "services": "Services",
         "signup": "Sign up",
         "login": "Log in",
-        "help": "Help"
+        "logout": "Log out",
+        "help": "Help",
+        "myaccount": "My account"
     }
 }
