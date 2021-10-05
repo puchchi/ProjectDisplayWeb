@@ -1,10 +1,5 @@
 import { useState, useRef, useEffect, React } from 'react'
 import Link from 'next/link'
-import {
-    PlacesAutocomplete,
-    geocodeByPlaceId,
-    getLatLng
-} from 'react-places-autocomplete';
 
 import LocationWidget from './LocationWidget';
 
@@ -13,9 +8,10 @@ import placeholder from '../../data/placeholder.json'
 import uistring from '../../data/uistring.json'
 
 import { SearchIcon } from '@heroicons/react/solid'
-import { MenuIcon } from '@heroicons/react/solid'
+import { MenuIcon } from '@heroicons/react/outline'
 import { UserCircleIcon } from '@heroicons/react/solid'
 import { XIcon } from '@heroicons/react/solid'
+import UserLoginDetails from './UserLoginDetails';
 
 const useFocus = () => {
     const htmlElRef = useRef(null)
@@ -39,14 +35,18 @@ function Header() {
     const [locationWidgetValue, setLocationWidgetValue] = useState("")
 
     // State for storing location search results
-    const [locationSuggestions, setLocationSuggestions] = useState([])  
+    const [locationSuggestions, setLocationSuggestions] = useState([])
     const [servicesWidgetValue, setServicesWidgetValue] = useState("")
+
+    // State for storing search button state
+    const [searchButtonState, setSearchButtonState] = useState(false)
+
+    // State to show/hide user detail dropdown (login/signup)
+    const [showUserDetailDropDown, setShowUserDetailDropDown] = useState(false)
 
     // const [address, setAddress] = useState("")
 
     const headerRef = useRef(null);
-    const locationWidgetRef = useRef(null);
-    const servicesWidgetRef = useRef(null);
     const expandedSearchWidgetRef = useRef(null);
 
     let [locationInputRef, setLocationInputFocus] = useFocus()
@@ -65,12 +65,16 @@ function Header() {
         e.preventDefault()
         setLocationWidgetExpandedState(true)
         setLocationInputFocus();
+
+        setServicesWidgetExpandedState(false);
     }
 
     const serviceWidgetClicked = (e) => {
         e.preventDefault()
         setServicesWidgetExpandedState(true)
         setServicesInputFocus();
+
+        setLocationWidgetExpandedState(false)
     }
 
     const clickedOutsideOfRef = (ref, widgetName) => {
@@ -84,17 +88,10 @@ function Header() {
                 }
             }
 
-            if (widgetName == "location") {
+            if (widgetName == "expanded_search") {
                 handleClickOutside = (event) => {
                     if (ref.current && !ref.current.contains(event.target)) {
                         setLocationWidgetExpandedState(false)
-                    }
-                }
-            }
-
-            if (widgetName == "services") {
-                handleClickOutside = (event) => {
-                    if (ref.current && !ref.current.contains(event.target)) {
                         setServicesWidgetExpandedState(false)
                     }
                 }
@@ -110,8 +107,7 @@ function Header() {
     }
 
     clickedOutsideOfRef(headerRef, "header");
-    clickedOutsideOfRef(locationWidgetRef, "location");
-    clickedOutsideOfRef(servicesWidgetRef, "services");
+    clickedOutsideOfRef(expandedSearchWidgetRef, "expanded_search");
 
     const SearchBarRender = ({ showInMd }) => {
         return (
@@ -140,11 +136,20 @@ function Header() {
         expandedSearchWidgetRef.current.style.maxHeight = maxHeight;
     })
 
+    useEffect(() => {
+        setSearchButtonState(locationWidgetExpandedState || servicesWidgetExpandedState);
+
+    }, [locationWidgetExpandedState, servicesWidgetExpandedState])
+
+    const formSubmit = () => {
+        console.log("Search button cliecked")
+    }
+
     return (
         <>
             <header ref={headerRef} className="fixed top-0 z-50 py-4 bg-white shadow-md w-full">
 
-                <div className="px-5 md:px-10 mx-auto max-w-custom grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-3 justify-between items-center h-full">
+                <div className="relative px-customSm md:px-customMd mx-auto max-w-custom grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-3 justify-between items-center h-full">
                     {/*  Left side div */}
 
                     <div className="flex gap-4">
@@ -163,46 +168,55 @@ function Header() {
                         <Link href="/artistonboarding">
                             <a className="text-sm text-textColor-heavy font-medium p-3 tracking-wide hover:bg-gray-100 rounded-full hidden sm:inline-flex">{uistring.header.becomeAnArtist}</a>
                         </Link>
-                        <div className="flex items-center rounded-full p-2 border gap-1 ml-2 cursor-pointer hover:shadow-md transition-shadow duration-500">
-                            <MenuIcon className="h-6" />
-                            <UserCircleIcon className="h-6" />
+                        <div>
+                            <button className="flex items-center rounded-full p-2 text-textColor-heavy border gap-1 ml-2 cursor-pointer hover:shadow-md transition-shadow duration-500"
+                                onClick={() => setShowUserDetailDropDown(true)}>
+                                <MenuIcon className="ml-1 h-4 " />
+                                <UserCircleIcon className="h-6" />
+                            </button>
+
+                            <UserLoginDetails
+                                showDropDown={showUserDetailDropDown}
+                                setHideUserDefailDown={() => setShowUserDetailDropDown(false)}
+                            />
+
                         </div>
                     </div>
                 </div>
 
                 {/* Expanded search bar */}
-                <form role="search" onSubmit="" className={`${searchBarExpandedState ? "grid " : " hidden "} mt-4 mx-4 grid-cols-1 z-100`}>
+                <form role="search" className={`${searchBarExpandedState ? "grid " : " hidden "} mt-4 mx-4 grid-cols-1 z-100`}>
                     <div ref={expandedSearchWidgetRef} className={`${(locationWidgetExpandedState || servicesWidgetExpandedState) ? "bg-gray-50 " : "bg-transparent "} border rounded-full border-gray-300 
                      self-center text-gray-300  mx-auto  flex max-h-0 transition-max-height duration-200
                       `}>
                         {/* Location widget */}
 
-                        <div ref={locationWidgetRef} className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
+                        <div className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
                         border border-transparent m-[-1px] rounded-full flex`} onClick={locationWidgetClicked}>
 
                             <LocationWidget
-                                locationInputRef={el => locationInputRef = el}
+                                locationInputRef={locationInputRef}
                                 locationWidgetExpandedState={locationWidgetExpandedState}
                                 locationWidgetValue={locationWidgetValue}
                                 setLocationWidgetValue={setLocationWidgetValue}
-                                locationSuggestions = {locationSuggestions}
-                                setLocationSuggestions = {setLocationSuggestions}
+                                locationSuggestions={locationSuggestions}
+                                setLocationSuggestions={setLocationSuggestions}
                             />
-                            
+
                         </div>
-                        
+
                         {/* Divider */}
                         <div className="self-center h-8 border-r border-gray-300"></div>
 
                         {/* Service  widget */}
-                        <div ref={servicesWidgetRef} className={`${servicesWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10" : "bg-transparent hover:bg-gray-200 "}
+                        <div className={`${servicesWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10" : "bg-transparent hover:bg-gray-200 "}
                          border border-transparent m-[-1px] rounded-full flex `} onClick={serviceWidgetClicked}>
                             <label className="cursor-pointer py-3.5 px-8 block z-1">
                                 <div>
                                     <div className="font-bold text-xs pb-0.5 text-textColor-heavy tracking-wide">
                                         {uistring.header.services}
                                     </div>
-                                    <input ref={servicesInputRef} type="text" placeholder={placeholder.header.servicePlaceholder} className="block w-full bg-transparent outline-none text-sm font-semibold overflow-ellipsis
+                                    <input ref={servicesInputRef} type="text" placeholder={placeholder.header.servicePlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium overflow-ellipsis
                                  text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer md:w-48" onChange={e => setServicesWidgetValue(e.target.value)}
                                         value={servicesWidgetValue} />
                                 </div>
@@ -215,6 +229,15 @@ function Header() {
                                         <XIcon className="h-6 p-[5px]" />
                                     </button>
                                 </div>
+                            </div>
+
+                            <div className="h-full flex mr-3">
+                                <button className={`${searchButtonState ? "sm:w-[6.75rem] " : "w-[2.75rem] "}
+                                bg-primary flex self-center rounded-full p-3 items-center transition-width `} onClick={formSubmit} >
+                                    <SearchIcon className="w-5  text-white rounded-full  " />
+                                    <span className={`${searchButtonState ? "sm:inline " : ""}font-semibold text-base 
+                                    leading-4 tracking-wide text-white mx-1 hidden `}>Search</span>
+                                </button>
                             </div>
                         </div>
                     </div>

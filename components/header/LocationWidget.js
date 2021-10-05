@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
@@ -19,9 +19,9 @@ const searchOptions = {
 
 function LocationWidget({ locationInputRef, locationWidgetExpandedState, locationWidgetValue, setLocationWidgetValue, locationSuggestions, setLocationSuggestions }) {
 
-    const LocationResultRender = ({ result }) => {
+    const LocationResultRender = ({ result, onClick }) => {
         return (
-            <li className="flex py-2 pl-8 pr-4 cursor-pointer text-textColor-heavy hover:bg-gray-100">
+            <li className="flex py-2 pl-8 pr-4 cursor-pointer text-textColor-heavy hover:bg-gray-100" onClick={onClick} >
                 <div className="bg-gray-200 border-gray-500 border-opacity-30  border min-w-[3rem] h-12 items-center justify-center flex mr-4 rounded-lg">
                     <LocationMarkerIcon className="h-5" />
                 </div>
@@ -38,13 +38,6 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
 
     const [locationSuggestionLoadingState, setLocationSuggestionLoadingState] = useState(false)
 
-    const handleSelect = async value => {
-        const results = await geocodeByAddress(value);
-        const latLng = await getLatLng(results[0]);
-        setLocationWidgetValue(value);
-        setCoordinates(latLng);
-    };
-
     const setLocationSuggestionData = ({ suggestions, loading }) => {
         if (loading) {
             setLocationSuggestionLoadingState(true);
@@ -55,12 +48,20 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
             setLocationSuggestionLoadingState(false);
         }
     }
+
+    const handleLocationSelect = async (value) => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setLocationWidgetValue(value);
+        setCoordinates(latLng);
+        setLocationSuggestions([]);
+    }
+
     return (
 
         <PlacesAutocomplete
             value={locationWidgetValue}
             onChange={setLocationWidgetValue}
-            onSelect={handleSelect}
             searchOptions={searchOptions}
         >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
@@ -71,7 +72,7 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
                                 {uistring.header.location}
                             </div>
                             <input autoFocus ref={locationInputRef} type="text" placeholder={placeholder.header.locationPlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium overflow-ellipsis
-                                 text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer md:w-48" {...getInputProps()} />
+                                 text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer mr-3  overflow-ellipsis md:w-48 " {...getInputProps()} />
                         </div>
                     </label>
 
@@ -100,6 +101,7 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
                                             <LocationResultRender
                                                 result={suggestion.description}
                                                 key={suggestion.index}
+                                                onClick={() => handleLocationSelect(suggestion.description)}
                                             />
                                         )
                                     })}

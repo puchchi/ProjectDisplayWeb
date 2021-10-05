@@ -4,33 +4,33 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      colors:{
-        primary:{
+      colors: {
+        primary: {
           DEFAULT: '#2F9FD9',
           light: '#7CCBF3'
         },
-        background:{
+        background: {
           DEFAULT: '#fff',
           "light": "#f7f7f7"
         },
-        transparentBackground:{
+        transparentBackground: {
           light: 'rgba(0, 0, 0, 0.25)'
         },
-        dark:{
+        dark: {
           DEFAULT: '#333333'
         },
-        border:{
+        border: {
           DEFAULT: '#dddddd'
         },
-        textColor:{
-          heavy:'#333333',
+        textColor: {
+          heavy: '#333333',
           light: '#717171'
         }
       },
-      maxWidth:{
+      maxWidth: {
         custom: 1440
       },
-      fontFamily:{
+      fontFamily: {
         sans: [
           'Roboto',
           '"Inter"',
@@ -48,13 +48,25 @@ module.exports = {
           '"Noto Color Emoji"',
         ],
       },
-      boxShadow:{
+      boxShadow: {
         search: '0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%)',
         location: '2px 8px 16px rgb(0 0 0 / 20%), 2px 16px 32px rgb(0 0 0 / 15%)',
-        locationResult: '0px 6px 20px rgb(0 0 0 / 20%)'
+        locationResult: '0px 6px 20px rgb(0 0 0 / 20%)',
+        userDetailDropDown: '0px 6px 10px rgb(0 0 0 / 20%)'
+      },
+      transitionProperty: {
+        width: 'width'
+      },
+      padding:{
+        customSm:'1.25rem',  // Used as padding of main container of each comp
+        customMd:'2.5rem'
+      },
+      margin:{
+        customSm:'1.25rem',  // Should be same as padding
+        customMd:'2.5rem'
       }
     },
-    
+
   },
   variants: {
     extend: {},
