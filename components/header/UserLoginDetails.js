@@ -46,6 +46,9 @@ function UserLoginDetails(props) {
                     }
 
                     <li className="w-full py-2"><hr className="" /></li>
+                    {
+                        !isUserLoggedIn ? <li className="user-detail-dd-list-item">{uistring.header.createPortfolio}</li> :  ""
+                    }
                     <li className=" user-detail-dd-list-item" >{uistring.header.help}</li>
                 </ul>
             </section>

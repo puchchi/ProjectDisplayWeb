@@ -7,6 +7,11 @@
         "login": "Log in",
         "logout": "Log out",
         "help": "Help",
-        "myaccount": "My account"
+        "myaccount": "My account",
+        "createPortfolio": "Create your portfolio"
+    },
+
+    "editorsPick":{
+        "editorsPick": "Editors Pick"
     }
 }

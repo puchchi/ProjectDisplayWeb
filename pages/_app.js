@@ -6,12 +6,12 @@ import HeadComp from '../components/HeadComp'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider store={store}>
-      <>
-        <HeadComp />
+    <>
+      <HeadComp />
+      <Provider store={store}>
         <Component {...pageProps} />
-      </>
-    </Provider>
+      </Provider>
+    </>
   )
 }
 

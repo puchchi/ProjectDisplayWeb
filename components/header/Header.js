@@ -4,7 +4,7 @@ import Link from 'next/link'
 import LocationWidget from './LocationWidget';
 
 import data from '../../data/common.json'
-import placeholder from '../../data/placeholder.json'
+import placeholder from '../../data/placeholderstring.json'
 import uistring from '../../data/uistring.json'
 
 import { SearchIcon } from '@heroicons/react/solid'
@@ -187,12 +187,12 @@ function Header() {
                 {/* Expanded search bar */}
                 <form role="search" className={`${searchBarExpandedState ? "grid " : " hidden "} mt-4 mx-4 grid-cols-1 z-100`}>
                     <div ref={expandedSearchWidgetRef} className={`${(locationWidgetExpandedState || servicesWidgetExpandedState) ? "bg-gray-50 " : "bg-transparent "} border rounded-full border-gray-300 
-                     self-center text-gray-300  mx-auto  flex max-h-0 transition-max-height duration-200
+                     self-center text-gray-300  mx-auto  flex max-h-0 transition-max-height duration-200 
                       `}>
                         {/* Location widget */}
 
                         <div className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
-                        border border-transparent m-[-1px] rounded-full flex`} onClick={locationWidgetClicked}>
+                        border border-transparent m-[-1px] rounded-full flex `} onClick={locationWidgetClicked}>
 
                             <LocationWidget
                                 locationInputRef={locationInputRef}
