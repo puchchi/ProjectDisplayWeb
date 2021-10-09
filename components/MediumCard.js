@@ -7,7 +7,7 @@ function MediumCard({ category, name, coverPic, profileURL }) {
         <Link href={profileURL}>
             <div className=" flex flex-col w-full relative cursor-pointer ">
                 <div className="rounded-xl overflow-hidden relative 
-            h-[20rem] w-full">
+            h-[18rem] sm:h-[19rem] md:h-[20rem] lg:h-[21rem] xl:h-[22rem] 2xl:h-[23rem] w-full">
                     <Image src={coverPic}
                         layout="fill"
                         objectFit="cover"

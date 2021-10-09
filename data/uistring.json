@@ -13,5 +13,19 @@
 
     "editorsPick":{
         "editorsPick": "Editors Pick"
+    },
+
+    "buildPortfolio":{
+        "tryNow": "Try now",
+        "buildPortfolio": "Build your portfolio for better reach to customers",
+        "learnMore": "Learn more"
+    },
+
+    "footer":{
+        "copyrightYear": "2021",
+        "privacy": "Privacy",
+        "terms":"Terms",
+        "contact": "Contact",
+        "sitemap": "Sitemap"
     }
 }

@@ -28,7 +28,7 @@ module.exports = {
         }
       },
       maxWidth: {
-        custom: 1440
+        custom: 1600
       },
       fontFamily: {
         sans: [

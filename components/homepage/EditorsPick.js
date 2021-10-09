@@ -1,6 +1,6 @@
-import uistring from '../data/uistring.json'
-import editorpicksdata from '../data/editorpicks.json'
-import MediumCard from './MediumCard'
+import uistring from '../../data/uistring.json'
+import editorpicksdata from '../../data/editorpicks.json'
+import MediumCard from '../MediumCard'
 
 import Carousel, { consts } from 'react-elastic-carousel'
 
@@ -32,7 +32,7 @@ function EditorsPick() {
                 </div>
 
                 {/* Editor pick image */}
-                <div className="my-2 mb-24">
+                <div className="mt-4 ">
                     <div className="relative  gap-5  max-w-full 
                     justify-between ">
                         <Carousel
