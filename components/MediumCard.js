@@ -1,22 +1,24 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-function MediumCard() {
+function MediumCard({ category, name, coverPic, profileURL }) {
     return (
-        <div className=" flex flex-col w-full relative ">
-            <div className="rounded-xl overflow-hidden relative 
+
+        <Link href={profileURL}>
+            <div className=" flex flex-col w-full relative cursor-pointer ">
+                <div className="rounded-xl overflow-hidden relative 
             h-[20rem] w-full">
-                <Link href="/gotoprofile">
-                    <a className="">
-                        <Image src="/images/editor_picks_1.png"
-                            layout="fill"
-                            objectFit="cover"
-                        />
-                    </a>
-                </Link>
+                    <Image src={coverPic}
+                        layout="fill"
+                        objectFit="cover"
+                    />
+                </div>
+
+                <h3 className="font-semibold text-lg tracking-wide mt-2">{category}</h3>
+                <span className="text-sm">by {name}</span>
             </div>
-            <h3 className="font-semibold text-lg tracking-wide mt-2">Guitarist</h3>
-        </div>
+        </Link>
+
     )
 }
 

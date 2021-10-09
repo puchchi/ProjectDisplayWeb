@@ -1,5 +1,5 @@
 {
-    "editorsPick": [
+    "editorPicks": [
         {
             "artistId": 1,
             "category": "Guitar",
@@ -11,35 +11,35 @@
             "artistId": 2,
             "category": "Interior Designer",
             "name": "Johny 2",
-            "profilePic": "/images/editor_picks_2.png",
+            "coverPic": "/images/editor_picks_2.png",
             "profileURL": "/profile/url2"
         },
         {
             "artistId": 3,
             "category": "Painter",
             "name": "John Doe 3",
-            "profilePic": "/images/editor_picks_3.png",
+            "coverPic": "/images/editor_picks_3.png",
             "profileURL": "/profile/url3"
         },
         {
             "artistId": 4,
             "category": "Guitar",
             "name": "Johnny Donny 4",
-            "profilePic": "/images/editor_picks_4.png",
+            "coverPic": "/images/editor_picks_4.png",
             "profileURL": "/profile/url4"
         },
         {
             "artistId": 5,
             "category": "Guitar",
             "name": "Johnny Donny 5",
-            "profilePic": "/images/editor_picks_1.png",
+            "coverPic": "/images/editor_picks_1.png",
             "profileURL": "/profile/url5"
         },
         {
             "artistId": 6,
             "category": "Guitar",
             "name": "Johnny Donny 6",
-            "profilePic": "/images/editor_picks_1.png",
+            "coverPic": "/images/editor_picks_1.png",
             "profileURL": "/profile/url6"
         }
     ]
