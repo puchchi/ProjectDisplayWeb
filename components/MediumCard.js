@@ -15,7 +15,7 @@ function MediumCard({ category, name, coverPic, profileURL }) {
                 </div>
 
                 <h3 className="font-semibold text-lg tracking-wide mt-2">{category}</h3>
-                <span className="text-sm">by {name}</span>
+                <p className="text-sm">by <span className="font-medium italic">{name}</span></p>
             </div>
         </Link>
 

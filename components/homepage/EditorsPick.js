@@ -28,7 +28,7 @@ function EditorsPick() {
             <div className="mt-8">
                 {/* Editor pick heading */}
                 <div>
-                    <span className="font-bold text-[2rem] leading-9">{uistring.editorsPick.editorsPick}</span>
+                    <span className="heading-type-100">{uistring.editorsPick.editorsPick}</span>
                 </div>
 
                 {/* Editor pick image */}

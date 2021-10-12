@@ -15,21 +15,21 @@ function Footer({fixedFooter=true}) {
                         <div className="text-sm flex">
                             <p className="capitalize">&copy; {uistring.footer.copyrightYear} {commonData.projectTitle}</p>
                             <p className="w-4 text-center">·</p>
-                            <Link href="/privacy">
+                            <a href="/privacy">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.privacy}</p>
-                            </Link>
+                            </a>
                             <p className="w-4 text-center">·</p>
-                            <Link href="/terms">
+                            <a href="/terms">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.terms}</p>
-                            </Link>
+                            </a>
                             <p className="w-4 text-center">·</p>
-                            <Link href="/contact">
+                            <a href="/contact">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.contact}</p>
-                            </Link>
+                            </a>
                             <p className="w-4 text-center">·</p>
-                            <Link href="/sitemap">
+                            <a href="/sitemap">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.sitemap}</p>
-                            </Link>
+                            </a>
                         </div>
 
                         <div className="flex">

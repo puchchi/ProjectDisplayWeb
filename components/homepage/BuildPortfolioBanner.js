@@ -6,7 +6,7 @@ function BuildPortfolioBanner() {
     return (
         <div className="px-customSm md:px-customMd mx-auto max-w-custom">
             <Link href="/buildportfolio">
-                <div className="relative cursor-pointer">
+                <div className="relative cursor-pointer mt-16">
                     {/* Background image */}
                     <div className="hidden md:inline">
                         <div className="relative w-full h-[28rem] mt-12 rounded-xl overflow-hidden">

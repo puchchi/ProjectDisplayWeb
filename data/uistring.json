@@ -10,21 +10,22 @@
         "myaccount": "My account",
         "createPortfolio": "Create your portfolio"
     },
-
-    "editorsPick":{
+    "editorsPick": {
         "editorsPick": "Editors Pick"
     },
-
-    "buildPortfolio":{
+    "buildPortfolio": {
         "tryNow": "Try now",
         "buildPortfolio": "Build your portfolio for better reach to customers",
         "learnMore": "Learn more"
     },
-
-    "footer":{
+    "topcategories": {
+        "topcateries": "Top categories",
+        "viewAllCategories": "View all categories"
+    },
+    "footer": {
         "copyrightYear": "2021",
         "privacy": "Privacy",
-        "terms":"Terms",
+        "terms": "Terms",
         "contact": "Contact",
         "sitemap": "Sitemap"
     }

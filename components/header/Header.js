@@ -246,7 +246,7 @@ function Header() {
             </header>
 
             {/* Transparent drape */}
-            <div className={`${searchBarExpandedState ? "inline-flex " : "hidden "}inset-0 fixed z-10 bg-transparentBackground-light`}>
+            <div className={`${searchBarExpandedState ? "inline-flex " : "hidden "}inset-0 fixed z-20 bg-transparentBackground-light`}>
             </div>
         </>
     )

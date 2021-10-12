@@ -15,4 +15,8 @@
     .user-detail-dd-list-item{
       @apply py-3 px-4 hover:bg-gray-100
     }
+
+    .heading-type-100{
+      @apply font-bold text-[2rem] leading-9
+    }
   }

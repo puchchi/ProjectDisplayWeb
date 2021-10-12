@@ -1,0 +1,53 @@
+{
+    "topCategories": [
+        {
+            "categoryId": 1,
+            "categoryName": "Photographers",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx photographers"
+        },
+        {
+            "categoryId": 2,
+            "categoryName": "Interior Designer",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Interior Designer"
+        },
+        {
+            "categoryId": 3,
+            "categoryName": "Make up artist",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Make up artist"
+        },
+        {
+            "categoryId": 4,
+            "categoryName": "Painter (Wall art)",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Painter"
+        },
+        {
+            "categoryId": 5,
+            "categoryName": "Singer",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Singer"
+        },
+        {
+            "categoryId": 6,
+            "categoryName": "Guitarist",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Guitarist"
+        },
+        {
+            "categoryId": 7,
+            "categoryName": "Singer",
+            "categoryPic": "/images/top-category-img1.webp",
+            "categoryURL": "/category/photographers",
+            "categoryDesc": "xxx Singer "
+        }
+    ]
+}
