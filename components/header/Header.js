@@ -4,7 +4,6 @@ import Link from 'next/link'
 import LocationWidget from './LocationWidget';
 
 import data from '../../data/common.json'
-import placeholder from '../../data/placeholderstring.json'
 import uistring from '../../data/uistring.json'
 
 import { SearchIcon } from '@heroicons/react/solid'
@@ -12,13 +11,7 @@ import { MenuIcon } from '@heroicons/react/outline'
 import { UserCircleIcon } from '@heroicons/react/solid'
 import { XIcon } from '@heroicons/react/solid'
 import UserLoginDetails from './UserLoginDetails';
-
-const useFocus = () => {
-    const htmlElRef = useRef(null)
-    const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
-
-    return [htmlElRef, setFocus]
-}
+import { useFocus } from '../hooks/useFocus'
 
 function Header() {
 
@@ -117,8 +110,8 @@ function Header() {
                     type="button"
                     onClick={searchBarOnClick}>
                     <div className="pl-5  my-auto font-medium text-sm text-dark tracking-wide">
-                        <p className="hidden sm:inline-flex">{placeholder.header.searchPlaceholder}</p>
-                        <p className="inline-flex sm:hidden">{placeholder.header.miniSearchPlaceholder}</p>
+                        <p className="hidden sm:inline-flex">{uistring.header.placeholder.searchPlaceholder}</p>
+                        <p className="inline-flex sm:hidden">{uistring.header.placeholder.miniSearchPlaceholder}</p>
                     </div>
                     <SearchIcon className="w-8 bg-primary text-white rounded-full p-2  mx-2 my-auto " />
                 </button>
@@ -147,7 +140,7 @@ function Header() {
 
     return (
         <>
-            <header ref={headerRef} className="fixed top-0 z-50 py-4 bg-white shadow-md w-full">
+            <header ref={headerRef} className="fixed top-0 z-30 py-4 bg-white shadow-md w-full">
 
                 <div className="relative px-customSm md:px-customMd mx-auto max-w-custom grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-3 justify-between items-center h-full">
                     {/*  Left side div */}
@@ -177,7 +170,7 @@ function Header() {
 
                             <UserLoginDetails
                                 showDropDown={showUserDetailDropDown}
-                                setHideUserDefailDown={() => setShowUserDetailDropDown(false)}
+                                setHideUserDetailDown={() => setShowUserDetailDropDown(false)}
                             />
 
                         </div>
@@ -216,7 +209,7 @@ function Header() {
                                     <div className="font-bold text-xs pb-0.5 text-textColor-heavy tracking-wide">
                                         {uistring.header.services}
                                     </div>
-                                    <input ref={servicesInputRef} type="text" placeholder={placeholder.header.servicePlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium overflow-ellipsis
+                                    <input ref={servicesInputRef} type="text" placeholder={uistring.header.placeholder.servicePlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium overflow-ellipsis
                                  text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer md:w-48" onChange={e => setServicesWidgetValue(e.target.value)}
                                         value={servicesWidgetValue} />
                                 </div>

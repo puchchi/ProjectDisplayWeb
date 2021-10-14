@@ -5,7 +5,6 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 import uistring from '../../data/uistring.json'
-import placeholder from '../../data/placeholderstring.json'
 
 import { XIcon } from '@heroicons/react/solid'
 import { LocationMarkerIcon } from '@heroicons/react/solid'
@@ -71,7 +70,7 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
                             <div className="font-bold text-xs pb-0.5 text-textColor-heavy tracking-wide">
                                 {uistring.header.location}
                             </div>
-                            <input autoFocus ref={locationInputRef} type="text" placeholder={placeholder.header.locationPlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium
+                            <input autoFocus ref={locationInputRef} type="text" placeholder={uistring.header.placeholder.locationPlaceholder} className="block w-full bg-transparent outline-none text-sm font-medium
                                  text-textColor-heavy expanded-search-placeholder tracking-wide cursor-pointer mr-3 overflow-ellipsis md:w-48 " {...getInputProps()} />
                         </div>
                     </label>

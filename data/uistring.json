@@ -1,5 +1,11 @@
 {
     "header": {
+        "placeholder": {
+            "searchPlaceholder": "Start your search",
+            "miniSearchPlaceholder": "Search",
+            "locationPlaceholder": "Where do you need service?",
+            "servicePlaceholder": "What service you need?"
+        },
         "becomeAnArtist": "Become an Artist",
         "location": "Location",
         "services": "Services",
@@ -28,5 +34,22 @@
         "terms": "Terms",
         "contact": "Contact",
         "sitemap": "Sitemap"
+    },
+    "loginSignupModal": {
+        "placeholder": {
+            "phoneNumber": "Phone number"
+        },
+        "error":{
+            "tooShortPhoneNo": "Phone number is too short or contains invalid characters.",
+            "emptyPhoneNo": "Phone number is required."
+        },
+        "loginOrSignup": "Log in or sign up",
+        "welcomeTo": "Welcome to",
+        "weWillCallYou": "We will call or text you to confirm your number. Standard message and data rates apply.",
+        "privacySetting": "Privacy policy",
+        "continue": "Continue",
+        "or": "or",
+        "continueWithFacebook": "Continue with Facebook",
+        "continueWithGoogle": "Continue with Google"
     }
 }

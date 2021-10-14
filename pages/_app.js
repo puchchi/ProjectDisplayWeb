@@ -4,6 +4,7 @@ import store from '../redux/store';
 
 import HeadComp from '../components/HeadComp'
 
+
 function MyApp({ Component, pageProps }) {
   return (
     <>

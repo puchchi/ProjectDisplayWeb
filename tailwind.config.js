@@ -11,7 +11,8 @@ module.exports = {
         },
         background: {
           DEFAULT: '#fff',
-          "light": "#f7f7f7"
+          light: "#f7f7f7",
+          errorLight: "#fff8f6"
         },
         transparentBackground: {
           light: 'rgba(0, 0, 0, 0.25)'
@@ -20,11 +21,17 @@ module.exports = {
           DEFAULT: '#333333'
         },
         border: {
-          DEFAULT: '#dddddd'
+          DEFAULT: '#dddddd',
+          dark: '#B0B0B0'     //rgb(176, 176, 176)
         },
         textColor: {
+          extraHeavy: '#222222',
           heavy: '#333333',
+          mildHeavy: "#484848",  //rgb(72,72,72)
           light: '#717171'
+        },
+        error:{
+          type1: 'rgb(193, 53, 21)'
         }
       },
       maxWidth: {
@@ -64,7 +71,10 @@ module.exports = {
       margin:{
         customSm:'1.25rem',  // Should be same as padding
         customMd:'2.5rem'
-      }
+      },
+      transformOrigin: {
+        '0': '0% 0%'
+       }
     },
 
   },
