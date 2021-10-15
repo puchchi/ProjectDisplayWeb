@@ -31,11 +31,13 @@ function UserLoginDetails(props) {
         }, [ref]);
     }
 
-    const [isModalOpen, setisModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModal2Open, setIsModal2Open] = useState(false)
 
     const openModal = () => {
         props.setHideUserDetailDown();
-        setisModalOpen(true);
+        setIsModalOpen(true);
+        setIsModal2Open(false);
     }
 
     function afterOpenModal() {
@@ -44,7 +46,12 @@ function UserLoginDetails(props) {
     }
 
     const closeModal = () => {
-        setisModalOpen(false);
+        if (isModal2Open) {
+            setIsModal2Open(false);
+        }
+        else {
+            setIsModalOpen(false);
+        }
     }
 
     clickedOutsideOfRef(userDetailDropDownRef);
@@ -87,7 +94,11 @@ function UserLoginDetails(props) {
                 }
                 overlayClassName="modal-overlay-classname"
             >
-                <LoginSignupModal/>
+                <LoginSignupModal
+                    closeModal={closeModal}
+                    isModal2Open={isModal2Open}
+                    setIsModal2Open={setIsModal2Open}
+                />
 
             </Modal>
         </>

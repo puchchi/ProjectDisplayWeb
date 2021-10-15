@@ -50,6 +50,12 @@
         "continue": "Continue",
         "or": "or",
         "continueWithFacebook": "Continue with Facebook",
-        "continueWithGoogle": "Continue with Google"
+        "continueWithGoogle": "Continue with Google",
+        "confirmYourNumber": "Confirm your number",
+        "enterTheCode": "Enter the code we've sent via SMS to ",
+        "haventReceivedCode": "Haven't received a code?",
+        "tryAgain": "Try again",
+        "wrongOtp": "Wrong OTP. Please try again.",
+        "somethingWentWrong": "Sorry, something went wrong. Please try again."
     }
 }

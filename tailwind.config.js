@@ -30,7 +30,7 @@ module.exports = {
           mildHeavy: "#484848",  //rgb(72,72,72)
           light: '#717171'
         },
-        error:{
+        error: {
           type1: 'rgb(193, 53, 21)'
         }
       },
@@ -64,17 +64,21 @@ module.exports = {
       transitionProperty: {
         width: 'width'
       },
-      padding:{
-        customSm:'1.25rem',  // Used as padding of main container of each comp
-        customMd:'2.5rem'
+      padding: {
+        customSm: '1.25rem',  // Used as padding of main container of each comp
+        customMd: '2.5rem'
       },
-      margin:{
-        customSm:'1.25rem',  // Should be same as padding
-        customMd:'2.5rem'
+      margin: {
+        customSm: '1.25rem',  // Should be same as padding
+        customMd: '2.5rem'
       },
       transformOrigin: {
         '0': '0% 0%'
-       }
+      },
+
+      letterSpacing: {
+        
+      }
     },
 
   },
