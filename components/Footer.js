@@ -12,24 +12,24 @@ function Footer({fixedFooter=true}) {
                 <div className="px-customSm md:px-customMd mx-auto max-w-custom">
 
                     <div className=" flex px-4 py-8 justify-between text-textColor-heavy">
-                        <div className="text-sm flex">
+                        <div className="text-sm flex flex-col sm:flex-row">
                             <p className="capitalize">&copy; {uistring.footer.copyrightYear} {commonData.projectTitle}</p>
                             <p className="w-4 text-center">·</p>
-                            <a href="/privacy">
+                            <Link prefetch={false} href="/privacy">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.privacy}</p>
-                            </a>
+                            </Link>
                             <p className="w-4 text-center">·</p>
-                            <a href="/terms">
+                            <Link prefetch={false} href="/terms">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.terms}</p>
-                            </a>
+                            </Link>
                             <p className="w-4 text-center">·</p>
-                            <a href="/contact">
+                            <Link prefetch={false} href="/contact">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.contact}</p>
-                            </a>
+                            </Link>
                             <p className="w-4 text-center">·</p>
-                            <a href="/sitemap">
+                            <Link prefetch={false} href="/sitemap">
                                 <p className="cursor-pointer hover:underline">{uistring.footer.sitemap}</p>
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="flex">

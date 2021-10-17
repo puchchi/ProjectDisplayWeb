@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect, React } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
 
 import LocationWidget from './LocationWidget';
 
@@ -12,9 +14,58 @@ import { UserCircleIcon } from '@heroicons/react/solid'
 import { XIcon } from '@heroicons/react/solid'
 import UserLoginDetails from './UserLoginDetails';
 import { useFocus } from '../hooks/useFocus'
+import MainIcon from '../icon/MainIcon';
 
-function Header() {
 
+
+const MiniSearchBarRender = ({ showInMd, searchBarExpandedState, searchBarOnClick, showPlaceAndCategoryInSearchBar, serachedLocationWidgetValue, searchedServicesWidgetValue }) => {
+
+    // Data from redux store
+    const searchedLocation = useSelector(state => state.searchDetail.searchLocation);
+    const searchedService = useSelector(state => state.searchDetail.searchService);
+
+    let location = searchedLocation;
+    if (showPlaceAndCategoryInSearchBar && location.length > 0)
+        location = location.split(",")[0];
+    return (
+
+        <div className={`${showInMd ? "inline-flex lg:hidden " : "lg:inline-flex hidden"} w-full`}>
+            <button className={`${searchBarExpandedState ? "hidden" : "inline"} flex  border shadow-search rounded-full border-border hover:shadow-md justify-between ml-2 mx-0 lg:mx-auto cursor-pointer lg:w-72 md:w-64 h-12`}
+                type="button"
+                onClick={searchBarOnClick}>
+                {!showPlaceAndCategoryInSearchBar ?
+                    <>
+                        <div className="pl-5  my-auto font-medium text-sm text-dark tracking-wide">
+                            <span className="hidden sm:inline-flex">{uistring.header.placeholder.searchPlaceholder}</span>
+                            <span className="inline-flex sm:hidden">{uistring.header.placeholder.miniSearchPlaceholder}</span>
+                        </div>
+                        <SearchIcon className="w-8 bg-primary text-white rounded-full p-2  mx-2 my-auto " />
+                    </>
+                    :
+                    <>
+                        <div className="pl-5  my-auto font-medium text-sm text-dark tracking-wide w-full flex justify-between gap-2">
+                            <div>
+                                <span className="overflow-hidden overflow-ellipsis h-6">{location}</span>
+                            </div>
+                            <span className="h-6 w-[1px] bg-border"></span>
+
+                            <span className="overflow-hidden overflow-ellipsis h-6">{searchedService}</span>
+                        </div>
+                        <SearchIcon className="w-8 bg-primary text-white rounded-full p-2  mx-2 my-auto " />
+                    </>
+                }
+            </button>
+
+        </div>
+    )
+}
+
+const latLngInitialState = {
+    lat: null,
+    lng: null
+}
+
+function Header({ showPlaceAndCategoryInSearchBar = false }) {
     // State responsible to expand/unexpand state of search button.
     const [searchBarExpandedState, setSearchBarExpandedState] = useState(false)
 
@@ -24,12 +75,20 @@ function Header() {
     // State for expanded services widget
     const [servicesWidgetExpandedState, setServicesWidgetExpandedState] = useState(false)
 
+    // Getting searched data from redux store
+    const searchedLocation = useSelector(state => state.searchDetail.searchLocation);
+    const searchedService = useSelector(state => state.searchDetail.searchService);
+
     // State for storing input value of location widget
-    const [locationWidgetValue, setLocationWidgetValue] = useState("")
+    const [locationWidgetValue, setLocationWidgetValue] = useState(searchedLocation)          // For server
+    const [servicesWidgetValue, setServicesWidgetValue] = useState(searchedService)          // For server
+    const [locationCoordinates, setLocationCoordinates] = useState(latLngInitialState);     // For server
+    const setLocationWidgetValue1 = (value) => {
+        setLocationWidgetValue(value)
+    }
 
     // State for storing location search results
     const [locationSuggestions, setLocationSuggestions] = useState([])
-    const [servicesWidgetValue, setServicesWidgetValue] = useState("")
 
     // State for storing search button state
     const [searchButtonState, setSearchButtonState] = useState(false)
@@ -42,6 +101,8 @@ function Header() {
     const headerRef = useRef(null);
     const expandedSearchWidgetRef = useRef(null);
 
+    const router = useRouter()                          // For pushing search url
+
     let [locationInputRef, setLocationInputFocus] = useFocus()
     const [servicesInputRef, setServicesInputFocus] = useFocus()
 
@@ -49,17 +110,18 @@ function Header() {
         e.preventDefault()
         setSearchBarExpandedState(!searchBarExpandedState)
         setLocationWidgetExpandedState(true)
-        setLocationWidgetValue("")
-        setServicesWidgetValue("")
-        setLocationSuggestions([])
+        //setLocationWidgetValue("")
+        //setServicesWidgetValue("")
+        //setLocationSuggestions([])
     }
 
-    const locationWidgetClicked = (e) => {
-        e.preventDefault()
+    const openLocationWidget = () => {
+        //e.preventDefault()
         setLocationWidgetExpandedState(true)
         setLocationInputFocus();
 
         setServicesWidgetExpandedState(false);
+        setLocationCoordinates(latLngInitialState);
     }
 
     const serviceWidgetClicked = (e) => {
@@ -102,24 +164,6 @@ function Header() {
     clickedOutsideOfRef(headerRef, "header");
     clickedOutsideOfRef(expandedSearchWidgetRef, "expanded_search");
 
-    const SearchBarRender = ({ showInMd }) => {
-        return (
-            <div className={`${showInMd ? "hidden sm:inline-flex lg:hidden " : "lg:inline-flex sm:hidden"} w-full`}>
-
-                <button className={`${searchBarExpandedState ? "hidden" : "inline"} flex  border shadow-search rounded-full border-border hover:shadow-md justify-between mx-auto sm:mx-0 lg:mx-auto cursor-pointer lg:w-72 md:w-64 h-12`}
-                    type="button"
-                    onClick={searchBarOnClick}>
-                    <div className="pl-5  my-auto font-medium text-sm text-dark tracking-wide">
-                        <p className="hidden sm:inline-flex">{uistring.header.placeholder.searchPlaceholder}</p>
-                        <p className="inline-flex sm:hidden">{uistring.header.placeholder.miniSearchPlaceholder}</p>
-                    </div>
-                    <SearchIcon className="w-8 bg-primary text-white rounded-full p-2  mx-2 my-auto " />
-                </button>
-
-            </div>
-        )
-    }
-
     // Effect is used for transition of expanded state of search bar
     useEffect(() => {
         let maxHeight = "0px";
@@ -134,26 +178,51 @@ function Header() {
 
     }, [locationWidgetExpandedState, servicesWidgetExpandedState])
 
-    const formSubmit = () => {
-        console.log("Search button cliecked")
+    const searchSubmit = () => {
+        if (locationWidgetValue.length > 0 && locationCoordinates.lat != null) {
+            router.push({
+                pathname: '/s',
+                query: {
+                    place: locationWidgetValue,
+                    service: servicesWidgetValue,
+                    lat: locationCoordinates.lat,
+                    lng: locationCoordinates.lng
+                },
+            });
+        }
+        else
+            openLocationWidget();
     }
 
     return (
         <>
             <header ref={headerRef} className="fixed top-0 z-30 py-4 bg-white shadow-md w-full">
 
-                <div className="relative px-customSm md:px-customMd mx-auto max-w-custom grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-3 justify-between items-center h-full">
+                <div className="relative px-customSm md:px-customMd mx-auto max-w-custom grid lg:grid-cols-3 grid-cols-2 justify-between items-center h-full">
                     {/*  Left side div */}
 
-                    <div className="flex gap-4">
-                        <Link href="/">
-                            <a className="relative text-2xl font-bold self-center my-2">{data.projectTitle}</a>
+                    <div className="flex ">
+                        <Link href="/" >
+                            <div className="text-2xl font-bold self-center my-2">
+                                <div className="relative  sm:inline hidden">{data.projectTitle}</div>
+                                <MainIcon className="sm:hidden inline" />
+                            </div>
                         </Link>
-                        {SearchBarRender({ showInMd: true })}
+                        <MiniSearchBarRender
+                            key={searchBarExpandedState}
+                            showInMd={true}
+                            searchBarExpandedState={searchBarExpandedState}
+                            searchBarOnClick={searchBarOnClick}
+                            showPlaceAndCategoryInSearchBar={showPlaceAndCategoryInSearchBar} />
                     </div>
 
                     {/* Center div */}
-                    {SearchBarRender({ showInMd: false })}
+                    <MiniSearchBarRender
+                        key={searchBarExpandedState}
+                        showInMd={false}
+                        searchBarExpandedState={searchBarExpandedState}
+                        searchBarOnClick={searchBarOnClick}
+                        showPlaceAndCategoryInSearchBar={showPlaceAndCategoryInSearchBar} />
 
 
                     {/* Right div */}
@@ -185,15 +254,16 @@ function Header() {
                         {/* Location widget */}
 
                         <div className={`${locationWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10 " : "bg-transparent hover:bg-gray-200 "}  
-                        border border-transparent m-[-1px] rounded-full flex `} onClick={locationWidgetClicked}>
+                        border border-transparent m-[-1px] rounded-full flex `} onClick={openLocationWidget}>
 
                             <LocationWidget
                                 locationInputRef={locationInputRef}
                                 locationWidgetExpandedState={locationWidgetExpandedState}
                                 locationWidgetValue={locationWidgetValue}
-                                setLocationWidgetValue={setLocationWidgetValue}
+                                setLocationWidgetValue={setLocationWidgetValue1}
                                 locationSuggestions={locationSuggestions}
                                 setLocationSuggestions={setLocationSuggestions}
+                                setLocationCoordinates={setLocationCoordinates}
                             />
 
                         </div>
@@ -203,8 +273,8 @@ function Header() {
 
                         {/* Service  widget */}
                         <div className={`${servicesWidgetExpandedState ? "bg-white shadow-location border-gray-50 z-10" : "bg-transparent hover:bg-gray-200 "}
-                         border border-transparent m-[-1px] rounded-full flex `} onClick={serviceWidgetClicked}>
-                            <label className="cursor-pointer py-3.5 px-8 block z-1">
+                         border border-transparent m-[-1px] rounded-full flex `} >
+                            <label className="cursor-pointer py-3.5 px-8 block z-1" onClick={serviceWidgetClicked}>
                                 <div>
                                     <div className="font-bold text-xs pb-0.5 text-textColor-heavy tracking-wide">
                                         {uistring.header.services}
@@ -225,11 +295,11 @@ function Header() {
                             </div>
 
                             <div className="h-full flex mr-3">
-                                <button className={`${searchButtonState ? "sm:w-[6.75rem] " : "w-[2.75rem] "}
-                                bg-primary flex self-center rounded-full p-3 items-center transition-width `} onClick={formSubmit} >
+                                <button type="button" className={`${searchButtonState ? "sm:w-[6.75rem] " : "w-[2.75rem] "}
+                                bg-primary flex self-center rounded-full p-3 items-center transition-width `} onClick={searchSubmit} >
                                     <SearchIcon className="w-5  text-white rounded-full  " />
                                     <span className={`${searchButtonState ? "sm:inline " : ""}font-semibold text-base 
-                                    leading-4 tracking-wide text-white mx-1 hidden `}>Search</span>
+                                    leading-4 tracking-wide text-white mx-1 hidden `}>{uistring.header.searchBtnText}</span>
                                 </button>
                             </div>
                         </div>

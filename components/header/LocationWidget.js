@@ -16,7 +16,7 @@ const searchOptions = {
     types: ['(cities)']
 }
 
-function LocationWidget({ locationInputRef, locationWidgetExpandedState, locationWidgetValue, setLocationWidgetValue, locationSuggestions, setLocationSuggestions }) {
+function LocationWidget({ locationInputRef, locationWidgetExpandedState, locationWidgetValue, setLocationWidgetValue, locationSuggestions, setLocationSuggestions, setLocationCoordinates }) {
 
     const LocationResultRender = ({ result, onClick }) => {
         return (
@@ -29,11 +29,6 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
             </li>
         )
     }
-
-    const [coordinates, setCoordinates] = useState({
-        lat: null,
-        lng: null
-    });
 
     const [locationSuggestionLoadingState, setLocationSuggestionLoadingState] = useState(false)
 
@@ -52,7 +47,7 @@ function LocationWidget({ locationInputRef, locationWidgetExpandedState, locatio
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
         setLocationWidgetValue(value);
-        setCoordinates(latLng);
+        setLocationCoordinates(latLng);
         setLocationSuggestions([]);
     }
 

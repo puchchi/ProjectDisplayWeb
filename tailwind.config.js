@@ -21,7 +21,7 @@ module.exports = {
           DEFAULT: '#333333'
         },
         border: {
-          DEFAULT: '#dddddd',
+          DEFAULT: '#dddddd',   // rgb(221, 221, 221)
           dark: '#B0B0B0'     //rgb(176, 176, 176)
         },
         textColor: {

@@ -14,7 +14,8 @@
         "logout": "Log out",
         "help": "Help",
         "myaccount": "My account",
-        "createPortfolio": "Create your portfolio"
+        "createPortfolio": "Create your portfolio",
+        "searchBtnText":"Search"
     },
     "editorsPick": {
         "editorsPick": "Editors Pick"

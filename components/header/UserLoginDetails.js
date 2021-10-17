@@ -11,7 +11,7 @@ Modal.setAppElement('#__next')
 function UserLoginDetails(props) {
 
     // Data from redux store
-    const isUserLoggedIn = useSelector(state => state.isUserLoggedIn);
+    const isUserLoggedIn = useSelector(state => state.loginDetail.isUserLoggedIn);
     const dispatch = useDispatch()
 
     const userDetailDropDownRef = useRef(null);
@@ -68,7 +68,7 @@ function UserLoginDetails(props) {
                                 <li className="user-detail-dd-list-item" >{uistring.header.myaccount}</li>
                         }
                         {
-                            !isUserLoggedIn ? <li className="user-detail-dd-list-item">{uistring.header.login}</li> :
+                            !isUserLoggedIn ? <li className="user-detail-dd-list-item" onClick={openModal}>{uistring.header.login}</li> :
                                 <li className="user-detail-dd-list-item" onClick={() => dispatch(setUserLoggedOut())}>{uistring.header.logout}</li>
                         }
 

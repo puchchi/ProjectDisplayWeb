@@ -38,6 +38,11 @@ function EditorsPick() {
                         <Carousel
                             breakPoints={
                                 [{
+                                    width: 350,
+                                    itemsToShow: 1,
+
+                                }
+                                    ,{
                                     width: 500,
                                     itemsToShow: 2,
 
