@@ -6,6 +6,8 @@ import Header from '../../components/header/Header'
 import SearchResult from '../../components/searchresult/SearchResult';
 import { setSearchLocation, setSearchService } from '../../redux';
 
+import EditorsPick from '../../components/homepage/EditorsPick'
+
 function s() {
     const router = useRouter()
     const dispatch = useDispatch()
@@ -26,6 +28,7 @@ function s() {
                 showPlaceAndCategoryInSearchBar={true}
             />
             <SearchResult />
+            <EditorsPick/>
         </>
     )
 }

@@ -44,12 +44,13 @@ const MiniSearchBarRender = ({ showInMd, searchBarExpandedState, searchBarOnClic
                     :
                     <>
                         <div className="pl-5  my-auto font-medium text-sm text-dark tracking-wide w-full flex justify-between gap-2">
-                            <div>
-                                <span className="overflow-hidden overflow-ellipsis h-6">{location}</span>
+                            <div className="h-full my-auto">
+                                <span className="overflow-hidden overflow-ellipsis h-6 whitespace-nowrap">{location}</span>
                             </div>
                             <span className="h-6 w-[1px] bg-border"></span>
-
-                            <span className="overflow-hidden overflow-ellipsis h-6">{searchedService}</span>
+                            <div className="h-full my-auto">
+                                <span className="overflow-hidden overflow-ellipsis h-6 whitespace-nowrap">{searchedService}</span>
+                            </div>
                         </div>
                         <SearchIcon className="w-8 bg-primary text-white rounded-full p-2  mx-2 my-auto " />
                     </>
@@ -79,13 +80,20 @@ function Header({ showPlaceAndCategoryInSearchBar = false }) {
     const searchedLocation = useSelector(state => state.searchDetail.searchLocation);
     const searchedService = useSelector(state => state.searchDetail.searchService);
 
+
     // State for storing input value of location widget
-    const [locationWidgetValue, setLocationWidgetValue] = useState(searchedLocation)          // For server
-    const [servicesWidgetValue, setServicesWidgetValue] = useState(searchedService)          // For server
+    const [locationWidgetValue, setLocationWidgetValue] = useState("")          // For server
+    const [servicesWidgetValue, setServicesWidgetValue] = useState("")          // For server
     const [locationCoordinates, setLocationCoordinates] = useState(latLngInitialState);     // For server
-    const setLocationWidgetValue1 = (value) => {
-        setLocationWidgetValue(value)
-    }
+
+    useEffect(() => {
+        setLocationWidgetValue(searchedLocation)
+    }, [searchedLocation]);
+
+    useEffect(() => {
+        setServicesWidgetValue(searchedService)
+    }, [searchedService]);
+
 
     // State for storing location search results
     const [locationSuggestions, setLocationSuggestions] = useState([])
@@ -203,7 +211,7 @@ function Header({ showPlaceAndCategoryInSearchBar = false }) {
 
                     <div className="flex ">
                         <Link href="/" >
-                            <div className="text-2xl font-bold self-center my-2">
+                            <div className="text-2xl font-bold self-center my-2 cursor-pointer">
                                 <div className="relative  sm:inline hidden">{data.projectTitle}</div>
                                 <MainIcon className="sm:hidden inline" />
                             </div>
@@ -260,7 +268,7 @@ function Header({ showPlaceAndCategoryInSearchBar = false }) {
                                 locationInputRef={locationInputRef}
                                 locationWidgetExpandedState={locationWidgetExpandedState}
                                 locationWidgetValue={locationWidgetValue}
-                                setLocationWidgetValue={setLocationWidgetValue1}
+                                setLocationWidgetValue={setLocationWidgetValue}
                                 locationSuggestions={locationSuggestions}
                                 setLocationSuggestions={setLocationSuggestions}
                                 setLocationCoordinates={setLocationCoordinates}

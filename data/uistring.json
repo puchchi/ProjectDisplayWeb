@@ -58,5 +58,21 @@
         "tryAgain": "Try again",
         "wrongOtp": "Wrong OTP. Please try again.",
         "somethingWentWrong": "Sorry, something went wrong. Please try again."
+    },
+    "searchResultTop":{
+        "in":"in"
+    },
+    "searchFilters":{
+        "freeCancellation":"Free cancellation",
+        "price": "Price",
+        "availabilty":"Availability",
+        "moreFilters": "More filters",
+        "freeCancellationOffer": "Only show that offer free cancellation",
+        "clear": "Clear",
+        "save":"Save",
+        "averagePrice": "The average nightly price is ",
+        "rupeeSymbol": "₹",
+        "minPrice": "min price",
+        "maxPrice": "max price"
     }
 }

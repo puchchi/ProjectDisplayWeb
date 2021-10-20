@@ -11,6 +11,7 @@ module.exports = {
         },
         background: {
           DEFAULT: '#fff',
+          dark: '#b0b0b0',    //rgb(176, 176, 176)
           light: "#f7f7f7",
           errorLight: "#fff8f6"
         },
@@ -22,13 +23,15 @@ module.exports = {
         },
         border: {
           DEFAULT: '#dddddd',   // rgb(221, 221, 221)
+          light: "#ebebeb",     //rgb(235, 235, 235)
           dark: '#B0B0B0'     //rgb(176, 176, 176)
         },
         textColor: {
-          extraHeavy: '#222222',
+          extraHeavy: '#222222',    //rgb(34,34,34)
           heavy: '#333333',
           mildHeavy: "#484848",  //rgb(72,72,72)
-          light: '#717171'
+          light: '#717171',    //rgb(113,113,113),
+          lightest: '#dddddd'
         },
         error: {
           type1: 'rgb(193, 53, 21)'
@@ -70,7 +73,8 @@ module.exports = {
       },
       margin: {
         customSm: '1.25rem',  // Should be same as padding
-        customMd: '2.5rem'
+        customMd: '2.5rem',
+        miniHeader: '80px'    // Equals to height of unexpanded header
       },
       transformOrigin: {
         '0': '0% 0%'

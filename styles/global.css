@@ -17,7 +17,7 @@
     }
 
     .heading-type-100{
-      @apply font-bold text-[2rem] leading-9
+      @apply font-bold text-[2rem] leading-9 
     }
 
      .modal-classname{
