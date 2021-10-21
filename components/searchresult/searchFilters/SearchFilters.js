@@ -3,6 +3,7 @@ import FilterButton from './searchFiltersWidget/FilterButton'
 import FreeCancellation from './FreeCancellation'
 import PriceFilter from './PriceFilter'
 import PriceFilterClassComp from './PriceFilterClassComp'
+import AvailabilityFilter from './AvailabilityFilter'
 
 
 function SearchFilters() {
@@ -10,12 +11,8 @@ function SearchFilters() {
         <div className="w-full mt-6">
 
             <FreeCancellation/>
-
             <PriceFilterClassComp/>
-
-            <FilterButton
-                buttonText={uistring.searchFilters.availabilty}
-            />
+            <AvailabilityFilter/>
             <FilterButton
                 buttonText={uistring.searchFilters.moreFilters}
             />

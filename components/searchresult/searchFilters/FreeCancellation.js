@@ -39,7 +39,7 @@ function FreeCancellation() {
                 buttonText={uistring.searchFilters.freeCancellation}
                 onClick={() => { setShowFilterPopup(!showFilterPopup) }}
                 buttonRef={filterButtonRef}
-            
+                isFilterApplied={freeCancellationToggleButton}
             />
 
             {/* Free cancellation popup */}

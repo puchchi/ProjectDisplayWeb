@@ -261,6 +261,8 @@ export class PriceFilterClassComp extends Component {
                     }}
 
                     buttonRef={this.filterButtonRef}
+                    isFilterApplied={this.state.initialMinPrice != this.state.minPrice ||
+                        this.state.initialMaxPrice != this.state.maxPrice}
                 />
 
                 {/* Free cancellation popup */}
