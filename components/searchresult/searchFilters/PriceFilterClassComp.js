@@ -4,6 +4,7 @@ import FilterButton from './searchFiltersWidget/FilterButton'
 import { useState, useRef, useEffect } from 'react'
 import ClearSavePane from './searchFiltersWidget/ClearSavePane'
 import { IoReorderThreeSharp } from "react-icons/io5";
+import { connect } from 'react-redux';
 
 
 function PriceInputField({ title, minPrice, onChange, onBlur }) {
@@ -34,7 +35,7 @@ export class PriceFilterClassComp extends Component {
 
     constructor(props) {
         super(props);
-
+        console.log(props)
         this.state = {
             isDragging: false,
             leftButtonPosition: 0,
@@ -46,10 +47,13 @@ export class PriceFilterClassComp extends Component {
             sliderWidth: 360,           // This is default width, we will update it on mouse down event
             minPrice: 500,
             initialMinPrice: 500,
+            productMinPrice: 500,       // It is price coming from server
             maxPrice: 100000,
             initialMaxPrice: 100000,
+            productMaxPrice: 100000,      // Coming from server
             averagePrice: 1000,
-            showFilterPopup: false
+            showFilterPopup: false,
+            abc: props.minPrice
         };
         this.handleMouseUpLeft = this.handleMouseUpLeft.bind(this);
         this.handleMouseMoveLeft = this.handleMouseMoveLeft.bind(this);
@@ -79,6 +83,10 @@ export class PriceFilterClassComp extends Component {
             (this.filterButtonRef.current && !this.filterButtonRef.current.contains(event.target))) {
             this.setState({
                 ...this.state,
+                leftButtonPosition: 0,
+                rightButtonPosition: 100,
+                minPrice: this.state.initialMinPrice,
+                maxPrice: this.state.initialMaxPrice,
                 showFilterPopup: false
             })
         }
@@ -249,6 +257,7 @@ export class PriceFilterClassComp extends Component {
     render() {
         return (
             <div className="relative inline">
+                {console.log("class comp"+ this.state.abc)}
                 <FilterButton
                     buttonText={uistring.searchFilters.price}
                     onClick={() => {
@@ -262,7 +271,7 @@ export class PriceFilterClassComp extends Component {
 
                     buttonRef={this.filterButtonRef}
                     isFilterApplied={this.state.initialMinPrice != this.state.minPrice ||
-                        this.state.initialMaxPrice != this.state.maxPrice}
+                        this.state.initialMaxPrice != this.state.maxPrice || this.showFilterPopup}
                 />
 
                 {/* Free cancellation popup */}
@@ -316,4 +325,11 @@ export class PriceFilterClassComp extends Component {
     }
 }
 
-export default PriceFilterClassComp
+const mapStateToProps = state => {
+    return {
+        minPrice: state.searchDetail.searchMinPrice,
+        maxPrice: state.searchDetail.searchMaxPrice
+    }
+};
+
+export default connect(mapStateToProps) (PriceFilterClassComp)

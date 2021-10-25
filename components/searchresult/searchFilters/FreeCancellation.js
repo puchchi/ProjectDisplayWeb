@@ -2,18 +2,55 @@ import uistring from '../../../data/uistring.json'
 import ToggleButton from '../../widgets/ToggleButton'
 import FilterButton from './searchFiltersWidget/FilterButton'
 import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import ClearSavePane from './searchFiltersWidget/ClearSavePane'
 
 function FreeCancellation() {
-    const [freeCancellationToggleButton, setToggleButtonState] = useState(false)
-    const [showFilterPopup, setShowFilterPopup] = useState(false)
+    const cancellationPolicy = useSelector(state => state.searchDetail.searchCancellationPolicy);
+    const minprice = useSelector(state=>state.searchDetail.searchMinPrice);
+    console.log(minprice)
+
+    const [freeCancellationToggleButton, setToggleButtonState] = useState({
+        initialValue: false,
+        currentValue: false
+    });
+    const [showFilterPopup, setShowFilterPopup] = useState(false);
+
+    // Update toggle button state on basis of url data
+    useEffect(() => {
+        let shouldEnableToggleButton = cancellationPolicy.length != 0;
+        setToggleButtonState({
+            initialValue: shouldEnableToggleButton,
+            currentValue: shouldEnableToggleButton
+        });
+
+    }, [cancellationPolicy])
+
+    // Update toggle button when popup is closed
+    useEffect(() => {
+        setToggleButtonState({
+            ...freeCancellationToggleButton,
+            currentValue: freeCancellationToggleButton.initialValue
+        });
+    }, [showFilterPopup])
+
+    const router = useRouter();
 
     const clearButtonClicked = () => {
-        setToggleButtonState(false)
+        setToggleButtonState({
+            ...freeCancellationToggleButton,
+            currentValue: false
+        });
     }
 
     const saveButtonClicked = () => {
-        console.log("save button clicked")
+        setShowFilterPopup(false);
+
+        if (freeCancellationToggleButton.initialValue != freeCancellationToggleButton.currentValue) {
+            router.query.cancellation_policy = freeCancellationToggleButton.currentValue ? "free" : "";
+            router.push(router);
+        }
     }
 
     const filterPopupRef = useRef(null);
@@ -21,9 +58,9 @@ function FreeCancellation() {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (filterPopupRef.current && !filterPopupRef.current.contains(event.target) && 
-            filterButtonRef.current && !filterButtonRef.current.contains(event.target)) {
-                setShowFilterPopup(false)
+            if (filterPopupRef.current && !filterPopupRef.current.contains(event.target) &&
+                filterButtonRef.current && !filterButtonRef.current.contains(event.target)) {
+                setShowFilterPopup(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -32,6 +69,13 @@ function FreeCancellation() {
         };
     }, []);
 
+    const setFreeCancellationToggleButtonState = (value) => {
+        setToggleButtonState({
+            ...freeCancellationToggleButton,
+            currentValue: value
+        })
+    }
+
 
     return (
         <div className="relative inline">
@@ -39,7 +83,7 @@ function FreeCancellation() {
                 buttonText={uistring.searchFilters.freeCancellation}
                 onClick={() => { setShowFilterPopup(!showFilterPopup) }}
                 buttonRef={filterButtonRef}
-                isFilterApplied={freeCancellationToggleButton}
+                isFilterApplied={freeCancellationToggleButton.currentValue || showFilterPopup}
             />
 
             {/* Free cancellation popup */}
@@ -52,14 +96,14 @@ function FreeCancellation() {
                             <h4 className="text-sm text-textColor-light">{uistring.searchFilters.freeCancellationOffer}</h4>
                             {/* toggle button */}
                             <div className="min-w-[50px] ml-3 ">
-                                <ToggleButton isSelected={freeCancellationToggleButton} toggleButtonState={setToggleButtonState} />
+                                <ToggleButton isSelected={freeCancellationToggleButton.currentValue} toggleButtonState={(value) => { setFreeCancellationToggleButtonState(value) }} />
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-between py-3 px-[14px] border-t border-t-border-light items-center ">
 
                         <ClearSavePane
-                            isClearButtonDisbaled={!freeCancellationToggleButton}
+                            isClearButtonDisbaled={!freeCancellationToggleButton.currentValue}
                             clearButtonClicked={clearButtonClicked}
                             saveButtonClicked={saveButtonClicked}
                         />

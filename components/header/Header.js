@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, React } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import LocationWidget from './LocationWidget';
 
@@ -188,6 +188,7 @@ function Header({ showPlaceAndCategoryInSearchBar = false }) {
 
     const searchSubmit = () => {
         if (locationWidgetValue.length > 0 && locationCoordinates.lat != null) {
+            setSearchBarExpandedState(false)
             router.push({
                 pathname: '/s',
                 query: {

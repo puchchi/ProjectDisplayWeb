@@ -8,14 +8,6 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { Calendar } from 'react-date-range';
 
 
-function Test(date) {
-    console.log(date.getDate())    //let dt = date.split(" ")
-    //console.log(dt)
-    return (
-        <div className=" leading-8">{date.getDate()}</div>
-    )
-}
-
 function AvailabilityFilter() {
     const [showFilterPopup, setShowFilterPopup] = useState(false)
     const initialDate = new Date();
@@ -70,8 +62,6 @@ function AvailabilityFilter() {
 
                     {/* Clear save pane */}
                     <div className="flex justify-between py-3 px-[14px] border-t border-t-border-light items-center ">
-                        {console.log("initial date:" + initialDate)}
-                        {console.log("selected date: " + selectedDate)}
                         <ClearSavePane
                             isClearButtonDisbaled={initialDate.getDate() == selectedDate.getDate()}
                             clearButtonClicked={clearButtonClicked}

@@ -16,7 +16,8 @@ module.exports = {
           errorLight: "#fff8f6"
         },
         transparentBackground: {
-          light: 'rgba(0, 0, 0, 0.25)'
+          light: 'rgba(0, 0, 0, 0.25)',
+          lighter: 'rgba(221, 221, 221, .9)'
         },
         dark: {
           DEFAULT: '#333333'

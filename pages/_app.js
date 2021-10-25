@@ -4,14 +4,19 @@ import store from '../redux/store';
 
 import HeadComp from '../components/HeadComp'
 
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <HeadComp />
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </QueryClientProvider>
     </>
   )
 }

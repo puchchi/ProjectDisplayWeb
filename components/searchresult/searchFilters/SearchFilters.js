@@ -1,9 +1,8 @@
 import uistring from '../../../data/uistring.json'
-import FilterButton from './searchFiltersWidget/FilterButton'
 import FreeCancellation from './FreeCancellation'
-import PriceFilter from './PriceFilter'
 import PriceFilterClassComp from './PriceFilterClassComp'
 import AvailabilityFilter from './AvailabilityFilter'
+import MoreFilters from './MoreFilters'
 
 
 function SearchFilters() {
@@ -13,9 +12,7 @@ function SearchFilters() {
             <FreeCancellation/>
             <PriceFilterClassComp/>
             <AvailabilityFilter/>
-            <FilterButton
-                buttonText={uistring.searchFilters.moreFilters}
-            />
+            <MoreFilters/>
 
         </div>
     )
