@@ -21,26 +21,6 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
 
                 <div className="mt-3 mb-6 border-b border-b-border-light" />
                 <div className="mt-6  flex flex-col ">
-                    <SearchResultCard
-                        images={["/images/dynamic/pexels-photo-139829.jpeg",
-                            "/images/dynamic/pexels-photo-368893.jpeg",
-                            "/images/dynamic/pexels-photo-598917.jpeg",
-                            "/images/dynamic/pexels-photo-1214566.jpeg",
-                            "/images/dynamic/pexels-photo-1264210.jpeg",
-                            "/images/dynamic/pexels-photo-368893.jpeg",
-                            "/images/dynamic/pexels-photo-598917.jpeg",
-                            "/images/dynamic/pexels-photo-1214566.jpeg",
-                            "/images/dynamic/pexels-photo-1264210.jpeg"]}
-                        name={"Prashant's cool photography"}
-                        desc={"Best photographer in delhi-ncr"}
-                        packages={[
-                            {
-                                "default": "7000/day",
-                                "full": "25000/wedding"
-                            }
-                        ]}
-                        price={5000}
-                    />
                     {/* <SearchResultCard
                         images={["/images/dynamic/pexels-photo-139829.jpeg",
                             "/images/dynamic/pexels-photo-368893.jpeg",
@@ -56,16 +36,30 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                         ]}
                         price={5000}
                     /> */}
+
+
                     {isLoading ? "" :
-                        data.data.map((d) =>
-                            <SearchResultCard
-                                images={d.images}
-                                name={d.name}
-                                desc={d.desc}
-                                package={d.packages}
-                                price={d.price}
-                            />
-                        )
+                        <div className="flex">
+
+                            {/* Left search result pa */}
+                            <div className="flex-grow">
+
+                                {data.data.map((d) =>
+                                    <SearchResultCard
+                                        images={d.images}
+                                        name={d.name}
+                                        desc={d.desc}
+                                        package={d.packages}
+                                        price={d.price}
+                                        about={d.about}
+                                    />
+                                )}
+                            </div>
+
+                            <div className="w-[360px] bg-background-dark hidden lg:inline-block ml-4">
+
+                            </div>
+                        </div>
                     }
 
                 </div>

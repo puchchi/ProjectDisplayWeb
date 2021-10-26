@@ -3,6 +3,7 @@ import FreeCancellation from './FreeCancellation'
 import PriceFilterClassComp from './PriceFilterClassComp'
 import AvailabilityFilter from './AvailabilityFilter'
 import MoreFilters from './MoreFilters'
+import FilterButton from './searchFiltersWidget/FilterButton'
 
 
 function SearchFilters() {
@@ -13,6 +14,9 @@ function SearchFilters() {
             <PriceFilterClassComp/>
             <AvailabilityFilter/>
             <MoreFilters/>
+            <FilterButton
+                buttonText="Sort: Relevance"
+            />
 
         </div>
     )

@@ -2,10 +2,12 @@ import Carousel, { consts } from 'react-elastic-carousel'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import uistring from '../../data/uistring.json'
 
 import { IoHeartOutline } from "react-icons/io5";
 
 const imageWidth = 300;
+const imageHeight = 200;
 
 function carouselArrowHidden({ type, onClick, isEdge }) {
 
@@ -13,7 +15,7 @@ function carouselArrowHidden({ type, onClick, isEdge }) {
     return (
 
         <div className={`${isNextArrow ? "mr-[-50px] right-[50px] " : "ml-[-50px] left-[50px] "}relative z-10 top-[45%] h-8  `}>
-            <div className={`rounded-full shadow-lg border-transparent border-none w-8 h-8 `}>
+            <div className={`rounded-full border-none w-8 h-8 `}>
             </div>
         </div>
 
@@ -26,7 +28,7 @@ function carouselArrow({ type, onClick, isEdge }) {
     return (
 
         <div className={`${isNextArrow ? "mr-[-50px] right-[50px] " : "ml-[-50px] left-[50px] "}relative z-10 top-[45%] h-8  `}>
-            <div className={`${isEdge ? "bg-transparent " : "rounded-full shadow-lg border-transparent border-2 bg-background-light hover:bg-white "} w-8 h-8 hover:scale-105 transition-all `}
+            <div className={`${isEdge ? "bg-transparent " : "rounded-full shadow-lg border-transparent border-2 bg-background-light hover:bg-white "} w-8 h-8 hover:scale-105 transition-transform `}
                 onClick={isEdge ? () => { } : onClick}>
                 <span className={`${isEdge ? "hidden" : ""}`}>
                     <svg className={`${!isNextArrow ? "transform rotate-180 " : ""} p-[9px]`} viewBox="0 0 18 18" role="img" aria-hidden="false" aria-label="Next" focusable="false" ><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fillRule="evenodd"></path></svg>
@@ -123,19 +125,19 @@ function ImageCard({ image }) {
     )
 }
 
-function SearchResultCard({ images, name, packages, price, desc }) {
+function SearchResultCard({ images, name, packages, price, desc, about }) {
     const [showCarousel, setShowCarousel] = useState(false)
 
     return (
         <>
 
-            <div className="flex pl-[10px] cursor-pointer">
-
-                {/* Search result image */}
-                <div className={`w-[300px] rounded-xl  `} onMouseEnter={() => {
-                    console.log("mouse in")
+            <div className="flex flex-col md:flex-row pl-[10px] cursor-pointer"
+                onMouseEnter={() => {
                     setShowCarousel(true);
                 }} onMouseLeave={() => setShowCarousel(false)} >
+
+                {/* Search result image */}
+                <div className={`w-[300px] rounded-xl flex-shrink-0 `} >
                     <Carousel
                         itemsToShow={1}
                         pagination={true}
@@ -171,6 +173,25 @@ function SearchResultCard({ images, name, packages, price, desc }) {
                         bg-transparent hover:bg-background-light active:scale-90 transition-all rounded-full p-3 mr-[-6px]">
                             <IoHeartOutline className="h-7 w-7 text-textColor-extraHeavy stroke overflow-visible" />
                         </button>
+
+                    </div>
+
+                    <div className="mt-3 w-8 border-t-textColor-lightest border-t"></div>
+                    <div className="mt-2 overflow-hidden text-textColor-light text-sm font-normal max-w-[80%] max-h-11 overflow-clip">
+                        {about}
+                    </div>
+
+                    <div className="flex items-end flex-grow self-end">
+
+                        {/* price */}
+                        <div className=" flex flex-col items-end    ">
+                            <div>
+                                <span className="text-lg font-medium text-textColor-extraHeavy">{uistring.searchFilters.rupeeSymbol} {price} </span>
+                                <span className="text-lg font-normal text-textColor-light"> / day</span>
+                            </div>
+                            <span className="text-base text-textColor-light">Photos+Videos</span>
+
+                        </div>
                     </div>
 
                 </div>
