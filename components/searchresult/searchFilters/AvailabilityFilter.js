@@ -16,6 +16,7 @@ function AvailabilityFilter({ router }) {
     const [showFilterPopup, setShowFilterPopup] = useState(false)
     const [initialDate, setInitialDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const now = new Date();
     const filterPopupRef = useRef(null);
     let filterButtonRef = useRef(null);
 
@@ -41,7 +42,8 @@ function AvailabilityFilter({ router }) {
         const handleClickOutside = (event) => {
             if (filterPopupRef.current && !filterPopupRef.current.contains(event.target) &&
                 filterButtonRef.current && !filterButtonRef.current.contains(event.target)) {
-                setShowFilterPopup(false)
+                setShowFilterPopup(false);
+                setSelectedDate(initialDate);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -55,6 +57,7 @@ function AvailabilityFilter({ router }) {
     }
 
     const saveButtonClicked = () => {
+        setInitialDate(selectedDate);
         setShowFilterPopup(false);
         if (initialDate != selectedDate) {
             router.query.date = selectedDate.getFullYear() + "-" + selectedDate.getMonth() + "-" + selectedDate.getDate();
@@ -68,7 +71,7 @@ function AvailabilityFilter({ router }) {
                 buttonText={uistring.searchFilters.availabilty}
                 onClick={() => { setShowFilterPopup(!showFilterPopup) }}
                 buttonRef={filterButtonRef}
-                isFilterApplied={initialDate.getDate() != selectedDate.getDate()}
+                isFilterApplied={now.getDate() != selectedDate.getDate()}
             />
 
             <div ref={filterPopupRef} className={`${showFilterPopup ? "inline-block " : "hidden "} absolute left-0 top-[54px] right-auto z-50 bg-white border-[0.5px] rounded-xl 
@@ -89,7 +92,7 @@ function AvailabilityFilter({ router }) {
                     {/* Clear save pane */}
                     <div className="flex justify-between py-3 px-[14px] border-t border-t-border-light items-center ">
                         <ClearSavePane
-                            isClearButtonDisbaled={initialDate.getDate() == selectedDate.getDate()}
+                            isClearButtonDisbaled={initialDate.getDate() === selectedDate.getDate()}
                             clearButtonClicked={clearButtonClicked}
                             saveButtonClicked={saveButtonClicked}
                         />
