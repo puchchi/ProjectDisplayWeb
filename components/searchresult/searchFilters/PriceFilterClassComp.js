@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import router from 'next/router'
 
 
-function PriceInputField({ title, minPrice, onChange, onBlur }) {
+function PriceInputField({ title, minPrice, onChange }) {
     return (
         <div className="relative cursor-text flex h-14 w-full text-textColor-extraHeavy
                                     bg-white rounded-lg border-border-dark border text-base font-normal">
@@ -25,7 +25,7 @@ function PriceInputField({ title, minPrice, onChange, onBlur }) {
                         <span>{uistring.searchFilters.rupeeSymbol}</span>
                     </div>
                     <input type="text" className="w-full mt-[26px] mx-3 mb-[10px]
-                                                min-h-[1px] appearance-none outline-none" value={minPrice} onChange={onChange} onBlur={onBlur} />
+                                                min-h-[1px] appearance-none outline-none" value={minPrice} onChange={onChange}  />
                 </div>
             </label>
         </div>
@@ -84,8 +84,6 @@ export class PriceFilterClassComp extends Component {
         this.onMinPriceChangeMain = this.onMinPriceChangeMain.bind(this);
         this.onMaxPriceChange = this.onMaxPriceChange.bind(this);
         this.onMaxPriceChangeMain = this.onMaxPriceChangeMain.bind(this);
-        this.onBlurMin = this.onBlurMin.bind(this);
-        this.onBlurMax = this.onBlurMax.bind(this);
 
         this.filterPopupRef = React.createRef();
         this.filterButtonRef = React.createRef();
@@ -113,17 +111,6 @@ export class PriceFilterClassComp extends Component {
 
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside);
-
-        // let minPriceFromURL = parseInt(this.state.minPriceFromURL);
-        // if (minPriceFromURL > this.state.minPrice) {
-        //     this.onMinPriceChangeMain(minPriceFromURL, true);
-        // }
-
-        // let maxPriceFromURL = parseInt(this.state.maxPriceFromURL);
-        // if (maxPriceFromURL < this.state.maxPrice) {
-        //     this.onMaxPriceChangeMain(maxPriceFromURL, true);
-        // }
-
     }
 
     componentDidUpdate() {
@@ -265,16 +252,6 @@ export class PriceFilterClassComp extends Component {
     onMinPriceChange = (e) => {
         let newMinPrice = parseInt(e.target.value);
         this.onMinPriceChangeMain(newMinPrice);
-        // if (this.state.initialMaxPrice != this.state.originalMinPrice) {
-        //     let newLeftPosition = (newMinPrice / (this.state.initialMaxPrice - this.state.originalMinPrice)) * 100;
-        //     if (newLeftPosition >= 0 && newLeftPosition <= this.state.rightButtonPosition) {
-        //         this.setState({
-        //             ...this.state,
-        //             minPrice: newMinPrice,
-        //             leftButtonPosition: newLeftPosition
-        //         })
-        //     }
-        // }
     }
 
     onMaxPriceChangeMain = (newMaxPrice, changeInitial = false) => {
@@ -305,36 +282,6 @@ export class PriceFilterClassComp extends Component {
     onMaxPriceChange = (e) => {
         let newMaxPrice = parseInt(e.target.value);
         this.onMaxPriceChangeMain(newMaxPrice);
-        // if (this.state.initialMaxPrice != this.state.originalMinPrice) {
-        //     let newRightPosition = (newMaxPrice / (this.state.initialMaxPrice - this.state.originalMinPrice)) * 100;
-        //     if (newRightPosition <= 100 && newRightPosition > this.state.leftButtonPosition) {
-        //         this.setState({
-        //             ...this.state,
-        //             maxPrice: newMaxPrice,
-        //             rightButtonPosition: newRightPosition
-        //         })
-        //     }
-        // }
-    }
-
-    onBlurMin = (e) => {
-        // if (this.state.minPrice < this.state.originalMinPrice || this.state.minPrice < this.state.maxPrice) {
-        //     this.setState({
-        //         ...this.state,
-        //         minPrice: this.state.originalMinPrice,
-        //         leftButtonPosition: this.state.lastLeftButtonPosition
-        //     })
-        // }
-    }
-
-    onBlurMax = (e) => {
-        // if (this.state.maxPrice > this.state.initialMaxPrice || this.state.minPrice > this.state.maxPrice) {
-        //     this.setState({
-        //         ...this.state,
-        //         maxPrice: this.state.initialMaxPrice,
-        //         rightButtonPosition: this.state.lastRightButtonPosition
-        //     })
-        // }
     }
 
     clearButtonClicked = () => {
@@ -367,10 +314,7 @@ export class PriceFilterClassComp extends Component {
 
 
     render() {
-        // if (this.state.originalMinPrice !== this.state.minPriceFromURL){
-        //     this.onMinPriceChangeMain(this.state.minPriceFromURL);
-        // }
-
+ 
         return (
             <div className="relative inline">
                 <FilterButton
@@ -418,9 +362,9 @@ export class PriceFilterClassComp extends Component {
 
                                 {/* Min max price input button */}
                                 <div className="flex items-center justify-center mt-7">
-                                    <PriceInputField title={uistring.searchFilters.minPrice} minPrice={this.state.minPrice} onChange={this.onMinPriceChange} onBlur={this.onBlurMin} />
+                                    <PriceInputField title={uistring.searchFilters.minPrice} minPrice={this.state.minPrice} onChange={this.onMinPriceChange} />
                                     <div className="m-2">-</div>
-                                    <PriceInputField title={uistring.searchFilters.maxPrice} minPrice={this.state.maxPrice} onChange={this.onMaxPriceChange} onBlur={this.onBlurMax} />
+                                    <PriceInputField title={uistring.searchFilters.maxPrice} minPrice={this.state.maxPrice} onChange={this.onMaxPriceChange} />
 
                                 </div>
                             </div>
