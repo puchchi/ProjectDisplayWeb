@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react'
 import ClearSavePane from './searchFiltersWidget/ClearSavePane'
 import { IoReorderThreeSharp } from "react-icons/io5";
 import { connect } from 'react-redux';
+import router from 'next/router'
 
 
 function PriceInputField({ title, minPrice, onChange, onBlur }) {
@@ -35,25 +36,42 @@ export class PriceFilterClassComp extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props)
+
+        // Props contains 
+        // {
+        //  minPrice: min price coming from URL
+        //  maxPrice: max price coming from URL
+        //  minPriceOfResults: min price coming from api response
+        //  macPriceOfResults: max price coming from api response
+        // }
+
         this.state = {
             isDragging: false,
-            leftButtonPosition: 0,
-            originalLeftButtonPosition: 0,
-            lastLeftButtonPosition: 0,
+
+            leftButtonPosition: 0,              // Current position
+            originalLeftButtonPosition: 0,      // Act as constant, always 0
+            lastLeftButtonPosition: 0,          // Used as starting position before drag
+            initialLeftButtonPosition: 0,        // Used as initial position when page loads. Its value depend on URL variable
+
             rightButtonPosition: 100,
             originalRightButtonPosition: 100,
             lastRightButtonPosition: 100,
+            initialRightButtonPosition: 100,
+
             sliderWidth: 360,           // This is default width, we will update it on mouse down event
-            minPrice: 500,
-            initialMinPrice: 500,
-            productMinPrice: 500,       // It is price coming from server
-            maxPrice: 100000,
-            initialMaxPrice: 100000,
-            productMaxPrice: 100000,      // Coming from server
+
+            minPrice: props.minPriceOfResults,          // Current min price
+            originalMinPrice: props.minPriceOfResults,  // Act as constant. Coming from min price of searched result
+            initialMinPrice: props.minPriceOfResults,   // Used as initial min price when page loads. Its value depend on URL variable
+            minPriceFromURL: props.minPriceOfResults,   // Used to hold min price from URL parameter
+
+            maxPrice: props.maxPriceOfResults,          // Current max price
+            originalMaxPrice: props.maxPriceOfResults,  // Act as constant, coming from max price of searched result
+            initialMaxPrice: props.maxPriceOfResults,   // Used as initial max price when page loads. Its value depend on URL variable
+            maxPriceFromURL: props.maxPriceOfResults,   // Used to hold max price from URL parameter
+
             averagePrice: 1000,
             showFilterPopup: false,
-            abc: props.minPrice
         };
         this.handleMouseUpLeft = this.handleMouseUpLeft.bind(this);
         this.handleMouseMoveLeft = this.handleMouseMoveLeft.bind(this);
@@ -63,12 +81,11 @@ export class PriceFilterClassComp extends Component {
         this.saveButtonClicked = this.saveButtonClicked.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.onMinPriceChange = this.onMinPriceChange.bind(this);
+        this.onMinPriceChangeMain = this.onMinPriceChangeMain.bind(this);
         this.onMaxPriceChange = this.onMaxPriceChange.bind(this);
+        this.onMaxPriceChangeMain = this.onMaxPriceChangeMain.bind(this);
         this.onBlurMin = this.onBlurMin.bind(this);
         this.onBlurMax = this.onBlurMax.bind(this);
-
-
-
 
         this.filterPopupRef = React.createRef();
         this.filterButtonRef = React.createRef();
@@ -77,14 +94,16 @@ export class PriceFilterClassComp extends Component {
 
     }
 
+
+
     // Handling for popup open and close
     handleClickOutside = (event) => {
         if ((this.filterPopupRef.current && !this.filterPopupRef.current.contains(event.target)) &&
             (this.filterButtonRef.current && !this.filterButtonRef.current.contains(event.target))) {
             this.setState({
                 ...this.state,
-                leftButtonPosition: 0,
-                rightButtonPosition: 100,
+                leftButtonPosition: this.state.initialLeftButtonPosition,
+                rightButtonPosition: this.state.initialRightButtonPosition,
                 minPrice: this.state.initialMinPrice,
                 maxPrice: this.state.initialMaxPrice,
                 showFilterPopup: false
@@ -94,11 +113,39 @@ export class PriceFilterClassComp extends Component {
 
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside);
+
+        // let minPriceFromURL = parseInt(this.state.minPriceFromURL);
+        // if (minPriceFromURL > this.state.minPrice) {
+        //     this.onMinPriceChangeMain(minPriceFromURL, true);
+        // }
+
+        // let maxPriceFromURL = parseInt(this.state.maxPriceFromURL);
+        // if (maxPriceFromURL < this.state.maxPrice) {
+        //     this.onMaxPriceChangeMain(maxPriceFromURL, true);
+        // }
+
+    }
+
+    componentDidUpdate() {
+        let maxPriceFromURL = parseInt(this.props.maxPrice);
+        if (this.state.maxPriceFromURL != this.props.maxPrice) {
+            if (maxPriceFromURL < this.state.maxPrice) {
+                this.onMaxPriceChangeMain(maxPriceFromURL, true);
+            }
+        }
+
+        let minPriceFromURL = parseInt(this.props.minPrice);
+        if (this.state.minPriceFromURL != minPriceFromURL) {
+            if (minPriceFromURL > this.state.minPrice) {
+                this.onMinPriceChangeMain(minPriceFromURL, true);
+            }
+        }
     }
 
     componentWillUnmount() {
         document.removeEventListener("mousedown", this.handleClickOutside);
     }
+
 
     handleMouseUpLeft = (e) => {
         window.removeEventListener('mousemove', this.handleMouseMoveLeft);
@@ -113,10 +160,9 @@ export class PriceFilterClassComp extends Component {
 
     handleMouseMoveLeft = ({ clientX, clientY }) => {
         if (this.state.isDragging) {
-            console.log("isdragging")
             let newLeft = this.state.lastLeftButtonPosition + (((clientX - this.state.originalLeftButtonPosition) / this.state.sliderWidth) * 100);
             if (newLeft >= 0 && newLeft < this.state.rightButtonPosition) {
-                let newMinPrice = Math.round(this.state.initialMinPrice + ((this.state.initialMaxPrice - this.state.initialMinPrice) / 100 * newLeft));
+                let newMinPrice = Math.round(this.state.originalMinPrice + ((this.state.originalMaxPrice - this.state.originalMinPrice) / 100 * newLeft));
                 this.setState({
                     ...this.state,
                     leftButtonPosition: newLeft,
@@ -160,7 +206,7 @@ export class PriceFilterClassComp extends Component {
         if (this.state.isDragging) {
             let newRight = this.state.lastRightButtonPosition - (((this.state.originalRightButtonPosition - clientX) / this.state.sliderWidth) * 100);
             if (newRight <= 100 && newRight > this.state.leftButtonPosition) {
-                let newMaxPrice = Math.round(this.state.initialMinPrice + ((this.state.initialMaxPrice - this.state.initialMinPrice) / 100 * newRight));
+                let newMaxPrice = Math.round(this.state.originalMinPrice + ((this.state.originalMaxPrice - this.state.originalMinPrice) / 100 * newRight));
                 this.setState({
                     ...this.state,
                     rightButtonPosition: newRight,
@@ -172,7 +218,6 @@ export class PriceFilterClassComp extends Component {
     }
 
     onMouseDownRight = ({ clientX, clientY }) => {
-        console.log("mouse down " + clientX)
         let newSliderWidth = this.state.sliderWidth;
         if (this.sliderRef.current)
             newSliderWidth = this.sliderRef.current.clientWidth;
@@ -190,74 +235,144 @@ export class PriceFilterClassComp extends Component {
         })
     }
 
-    onMinPriceChange = (e) => {
-        let newMinPrice = e.target.value;
-        if (this.state.initialMaxPrice != this.state.initialMinPrice) {
-            let newLeftPosition = (newMinPrice / (this.state.initialMaxPrice - this.state.initialMinPrice)) * 100;
+    onMinPriceChangeMain = (newMinPrice, changeInitial = false) => {
+        
+        if (this.state.initialMinPrice != this.state.originalMaxPrice) {
+            let newLeftPosition = (newMinPrice / (this.state.originalMaxPrice - this.state.originalMinPrice)) * 100;
             if (newLeftPosition >= 0 && newLeftPosition <= this.state.rightButtonPosition) {
-                this.setState({
-                    ...this.state,
-                    minPrice: newMinPrice,
-                    leftButtonPosition: newLeftPosition
-                })
+                if (changeInitial) {
+                    this.setState({
+                        ...this.state,
+                        minPrice: newMinPrice,
+                        initialMinPrice: newMinPrice,
+                        leftButtonPosition: newLeftPosition,
+                        initialLeftButtonPosition: newLeftPosition,
+                        minPriceFromURL: newMinPrice
+                    });
+                }
+                else {
+                    this.setState({
+                        ...this.state,
+                        minPrice: newMinPrice,
+                        leftButtonPosition: newLeftPosition,
+                    });
+                }
+            }
+        }
+    }
+
+
+    onMinPriceChange = (e) => {
+        let newMinPrice = parseInt(e.target.value);
+        this.onMinPriceChangeMain(newMinPrice);
+        // if (this.state.initialMaxPrice != this.state.originalMinPrice) {
+        //     let newLeftPosition = (newMinPrice / (this.state.initialMaxPrice - this.state.originalMinPrice)) * 100;
+        //     if (newLeftPosition >= 0 && newLeftPosition <= this.state.rightButtonPosition) {
+        //         this.setState({
+        //             ...this.state,
+        //             minPrice: newMinPrice,
+        //             leftButtonPosition: newLeftPosition
+        //         })
+        //     }
+        // }
+    }
+
+    onMaxPriceChangeMain = (newMaxPrice, changeInitial = false) => {
+        if (this.state.initialMaxPrice != this.state.originalMinPrice) {
+            let newRightPosition = (newMaxPrice / (this.state.originalMaxPrice - this.state.originalMinPrice)) * 100;
+            if (newRightPosition <= 100 && newRightPosition > this.state.leftButtonPosition) {
+                if (changeInitial) {
+                    this.setState({
+                        ...this.state,
+                        maxPrice: newMaxPrice,
+                        initialMaxPrice: newMaxPrice,
+                        rightButtonPosition: newRightPosition,
+                        initialRightButtonPosition: newRightPosition,
+                        maxPriceFromURL: newMaxPrice
+                    });
+                }
+                else {
+                    this.setState({
+                        ...this.state,
+                        maxPrice: newMaxPrice,
+                        rightButtonPosition: newRightPosition
+                    });
+                }
             }
         }
     }
 
     onMaxPriceChange = (e) => {
-        let newMaxPrice = e.target.value;
-        if (this.state.initialMaxPrice != this.state.initialMinPrice) {
-            let newRightPosition = (newMaxPrice / (this.state.initialMaxPrice - this.state.initialMinPrice)) * 100;
-            if (newRightPosition <= 100 && newRightPosition > this.state.leftButtonPosition) {
-                this.setState({
-                    ...this.state,
-                    maxPrice: newMaxPrice,
-                    rightButtonPosition: newRightPosition
-                })
-            }
-        }
+        let newMaxPrice = parseInt(e.target.value);
+        this.onMaxPriceChangeMain(newMaxPrice);
+        // if (this.state.initialMaxPrice != this.state.originalMinPrice) {
+        //     let newRightPosition = (newMaxPrice / (this.state.initialMaxPrice - this.state.originalMinPrice)) * 100;
+        //     if (newRightPosition <= 100 && newRightPosition > this.state.leftButtonPosition) {
+        //         this.setState({
+        //             ...this.state,
+        //             maxPrice: newMaxPrice,
+        //             rightButtonPosition: newRightPosition
+        //         })
+        //     }
+        // }
     }
 
     onBlurMin = (e) => {
-        if (this.state.minPrice < this.state.initialMinPrice || this.state.minPrice < this.state.maxPrice) {
-            this.setState({
-                ...this.state,
-                minPrice: this.state.initialMinPrice,
-                leftButtonPosition: this.state.lastLeftButtonPosition
-            })
-        }
+        // if (this.state.minPrice < this.state.originalMinPrice || this.state.minPrice < this.state.maxPrice) {
+        //     this.setState({
+        //         ...this.state,
+        //         minPrice: this.state.originalMinPrice,
+        //         leftButtonPosition: this.state.lastLeftButtonPosition
+        //     })
+        // }
     }
 
     onBlurMax = (e) => {
-        console.log("onlucemax")
-        if (this.state.maxPrice > this.state.initialMaxPrice || this.state.minPrice > this.state.maxPrice) {
-            this.setState({
-                ...this.state,
-                maxPrice: this.state.initialMaxPrice,
-                rightButtonPosition: this.state.lastRightButtonPosition
-            })
-        }
+        // if (this.state.maxPrice > this.state.initialMaxPrice || this.state.minPrice > this.state.maxPrice) {
+        //     this.setState({
+        //         ...this.state,
+        //         maxPrice: this.state.initialMaxPrice,
+        //         rightButtonPosition: this.state.lastRightButtonPosition
+        //     })
+        // }
     }
 
     clearButtonClicked = () => {
         this.setState({
             ...this.state,
-            leftButtonPosition: 0,
-            rightButtonPosition: 100,
+            leftButtonPosition: this.state.initialLeftButtonPosition,
+            rightButtonPosition: this.state.initialRightButtonPosition,
             minPrice: this.state.initialMinPrice,
             maxPrice: this.state.initialMaxPrice
         })
     }
 
     saveButtonClicked = () => {
-        console.log("save button clicked")
+        this.setState({
+            ...this.state,
+            showFilterPopup: !this.state.showFilterPopup,
+            initialMinPrice: this.state.minPrice,
+            initialLeftButtonPosition: this.state.leftButtonPosition,
+            initialMaxPrice: this.state.maxPrice,
+            initialRightButtonPosition: this.state.rightButtonPosition
+        })
+
+        if (this.state.minPriceFromURL != this.state.minPrice || this.state.maxPriceFromURL != this.state.maxPrice){
+            this.props.router.query.min_price = this.state.minPrice;
+            this.props.router.query.max_price=this.state.maxPrice;
+            this.props.router.push(this.props.router);
+        }
+        
     }
 
 
     render() {
+        // if (this.state.originalMinPrice !== this.state.minPriceFromURL){
+        //     this.onMinPriceChangeMain(this.state.minPriceFromURL);
+        // }
+
         return (
             <div className="relative inline">
-                {console.log("class comp"+ this.state.abc)}
                 <FilterButton
                     buttonText={uistring.searchFilters.price}
                     onClick={() => {
@@ -270,8 +385,8 @@ export class PriceFilterClassComp extends Component {
                     }}
 
                     buttonRef={this.filterButtonRef}
-                    isFilterApplied={this.state.initialMinPrice != this.state.minPrice ||
-                        this.state.initialMaxPrice != this.state.maxPrice || this.showFilterPopup}
+                    isFilterApplied={this.state.originalMinPrice != this.state.minPrice ||
+                        this.state.originalMaxPrice != this.state.maxPrice || this.showFilterPopup}
                 />
 
                 {/* Free cancellation popup */}
@@ -279,7 +394,9 @@ export class PriceFilterClassComp extends Component {
                 overflow-hidden shadow-lg `}>
                     <div className="block min-w-[400px]">
                         <div className="max-h-[calc(100vh - 300px)] p-5 overflow-y-auto">
-                            <h4 className="pt-2 text-textColor-extraHeavy text-base pb-4">{uistring.searchFilters.averagePrice} {uistring.searchFilters.rupeeSymbol} {this.state.averagePrice}</h4>
+                            <h4 className="pt-2 text-textColor-extraHeavy text-base pb-4">{/*{uistring.searchFilters.averagePrice} {uistring.searchFilters.rupeeSymbol} {this.state.averagePrice}*/}</h4>
+
+
                             <div className="relative">
 
                                 {/* SLider code */}
@@ -332,4 +449,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps) (PriceFilterClassComp)
+export default connect(mapStateToProps)(PriceFilterClassComp)

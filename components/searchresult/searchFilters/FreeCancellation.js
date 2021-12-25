@@ -8,8 +8,6 @@ import ClearSavePane from './searchFiltersWidget/ClearSavePane'
 
 function FreeCancellation() {
     const cancellationPolicy = useSelector(state => state.searchDetail.searchCancellationPolicy);
-    const minprice = useSelector(state=>state.searchDetail.searchMinPrice);
-    console.log(minprice)
 
     const [freeCancellationToggleButton, setToggleButtonState] = useState({
         initialValue: false,

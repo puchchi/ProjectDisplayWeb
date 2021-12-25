@@ -13,11 +13,9 @@ function SearchResultTop() {
         location = location.split(",")[0];
 
     return (
-        <div className="pt-10 relative">
+        <div className="pt-10 relative overflow-hidden overflow-ellipsis whitespace-nowrap w-full">
             <h1 className="heading-type-100 tracking-wide">
-                <span>{searchedService}</span>
-                <span>&nbsp;{uistring.searchResultTop.in}&nbsp;</span>
-                <span>{location}</span>
+                <span className="overflow-hidden overflow-ellipsis whitespace-nowrap">{searchedService}&nbsp;{uistring.searchResultTop.in}&nbsp;{location}</span>
             </h1>
         </div>
     )

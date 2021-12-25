@@ -125,19 +125,33 @@ function ImageCard({ image }) {
     )
 }
 
+function ImageCardSM({ image }) {
+    return (
+        <div className="rounded-xl overflow-hidden relative h-[300px] w-full
+        border border-border-dark">
+            <Link href="/">
+                <Image src={image}
+                    layout="fill"
+                    objectFit="cover"
+                />
+            </Link>
+        </div>
+    )
+}
+
 function SearchResultCard({ images, name, packages, price, desc, about }) {
     const [showCarousel, setShowCarousel] = useState(false)
 
     return (
         <>
 
-            <div className="flex flex-col md:flex-row pl-[10px] cursor-pointer"
+            <div className="flex flex-col sm:flex-row pl-[10px] cursor-pointer"
                 onMouseEnter={() => {
                     setShowCarousel(true);
                 }} onMouseLeave={() => setShowCarousel(false)} >
 
                 {/* Search result image */}
-                <div className={`w-[300px] rounded-xl flex-shrink-0 `} >
+                <div className={`w-[300px] rounded-xl flex-shrink-0 hidden sm:inline-block`} >
                     <Carousel
                         itemsToShow={1}
                         pagination={true}
@@ -146,8 +160,28 @@ function SearchResultCard({ images, name, packages, price, desc, about }) {
                         itemPadding={[0, 0, 0, 0]}
                     >
                         {
-                            images.map((image) =>
+                            images.map((image, index) =>
                                 <ImageCard
+                                    key={index}
+                                    image={image}
+                                />
+                            )
+                        }
+                    </Carousel>
+                </div>
+
+                <div className={`w-full rounded-xl flex-shrink-0 inline-block sm:hidden`} >
+                    <Carousel
+                        itemsToShow={1}
+                        pagination={true}
+                        renderArrow={showCarousel ? carouselArrow : carouselArrowHidden}
+                        renderPagination={carouselDots}
+                        itemPadding={[0, 0, 0, 0]}
+                    >
+                        {
+                            images.map((image, index) =>
+                                <ImageCardSM
+                                    key={index}
                                     image={image}
                                 />
                             )
@@ -156,7 +190,7 @@ function SearchResultCard({ images, name, packages, price, desc, about }) {
                 </div>
 
                 {/* Search details */}
-                <div className="flex flex-col h-[200px] ml-4 flex-grow ">
+                <div className="flex flex-col sm:h-[200px] ml-4 flex-grow ">
                     <div className="flex items-start">
                         <div className="mr-4 flex-grow flex-shrink tracking-wide">
                             <div className="mb-1 text-sm items-center flex w-full text-textColor-light">
@@ -176,12 +210,12 @@ function SearchResultCard({ images, name, packages, price, desc, about }) {
 
                     </div>
 
-                    <div className="mt-3 w-8 border-t-textColor-lightest border-t"></div>
-                    <div className="mt-2 overflow-hidden text-textColor-light text-sm font-normal max-w-[80%] max-h-11 overflow-clip">
+                    <div className="mt-3 hidden sm:inline-block w-8 border-t-textColor-lightest border-t"></div>
+                    <div className="mt-2 hidden sm:inline-block overflow-hidden text-textColor-light text-sm font-normal max-w-[80%] max-h-11 overflow-clip">
                         {about}
                     </div>
 
-                    <div className="flex items-end flex-grow self-end">
+                    <div className="flex items-end flex-grow self-end mb-4 sm:mb-0">
 
                         {/* price */}
                         <div className=" flex flex-col items-end    ">

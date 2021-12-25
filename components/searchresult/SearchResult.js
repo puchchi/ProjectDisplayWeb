@@ -14,38 +14,29 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
     return (
 
         <div className="mt-miniHeader relative px-customSm md:px-customMd mx-auto max-w-custom">
-            {/* Extra padding for search result page */}
-            <div className="md:px-8">
-                <SearchResultTop />
-                <SearchFilters />
+            {isLoading ? "" :
 
-                <div className="mt-3 mb-6 border-b border-b-border-light" />
-                <div className="mt-6  flex flex-col ">
-                    {/* <SearchResultCard
-                        images={["/images/dynamic/pexels-photo-139829.jpeg",
-                            "/images/dynamic/pexels-photo-368893.jpeg",
-                            "/images/dynamic/pexels-photo-598917.jpeg",
-                            "/images/dynamic/pexels-photo-1264210.jpeg"]}
-                        name={"Prashant's cool photography"}
-                        desc={"Best photographer in delhi-ncr"}
-                        packages={[
-                            {
-                                "default": "7000/day",
-                                "full": "25000/wedding"
-                            }
-                        ]}
-                        price={5000}
-                    /> */}
+                <div className="md:px-40">
+
+                    {/* Extra padding for search result page */}
+                    <SearchResultTop />
+                    <SearchFilters
+                        minPriceOfResults={data.data.minprice}
+                        maxPriceOfResults={data.data.maxprice}
+                    />
+
+                    <div className="mt-3 mb-6 border-b border-b-border-light" />
+                    <div className="mt-6  flex flex-col ">
 
 
-                    {isLoading ? "" :
                         <div className="flex">
 
                             {/* Left search result pa */}
                             <div className="flex-grow">
 
-                                {data.data.map((d) =>
+                                {data.data.photographers.map((d) =>
                                     <SearchResultCard
+                                        key={d.id}
                                         images={d.images}
                                         name={d.name}
                                         desc={d.desc}
@@ -55,17 +46,12 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                                     />
                                 )}
                             </div>
-
-                            <div className="w-[360px] bg-background-dark hidden lg:inline-block ml-4">
-
-                            </div>
                         </div>
-                    }
+                    </div>
+
 
                 </div>
-
-                {console.log(data)}
-            </div>
+            }
         </div>
     )
 }
