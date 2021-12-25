@@ -19,7 +19,9 @@ function SearchFilters(props) {
                 maxPriceOfResults={props.maxPriceOfResults}
                 router={router}
             />
-            <AvailabilityFilter />
+            <AvailabilityFilter
+                router={router}
+            />
             <MoreFilters />
             <FilterButton
                 buttonText="Sort: Relevance"

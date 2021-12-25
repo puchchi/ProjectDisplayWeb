@@ -2,18 +2,40 @@ import uistring from '../../../data/uistring.json'
 import FilterButton from './searchFiltersWidget/FilterButton'
 import { useState, useRef, useEffect } from 'react'
 import ClearSavePane from './searchFiltersWidget/ClearSavePane'
+import { useSelector } from 'react-redux';
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { Calendar } from 'react-date-range';
 
 
-function AvailabilityFilter() {
+function AvailabilityFilter({ router }) {
+    // We will save date in form yyyy-mm-dd. (Month will be from 0-11)
+    const urlParamData = useSelector(state => state.searchDetail.searchCalenderDate);
+
     const [showFilterPopup, setShowFilterPopup] = useState(false)
-    const initialDate = new Date();
-    const [selectedDate, setSelectedDate] = useState(initialDate)
+    const [initialDate, setInitialDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const filterPopupRef = useRef(null);
     let filterButtonRef = useRef(null);
+
+    useEffect(() => {
+        console.log(urlParamData)
+        if (urlParamData !== undefined && urlParamData.length > 0) {
+            const arr = urlParamData.split("-");
+            if (arr.length == 3) {
+                let year = arr[0];
+                let month = arr[1];
+                let day = arr[2];
+                if (year > initialDate.getFullYear() ||
+                    (year == initialDate.getFullYear() && month > initialDate.getMonth()) ||
+                    (year == initialDate.getFullYear() && month == initialDate.getMonth() && day > initialDate.getDate())) {
+                    setSelectedDate(new Date(year, month, day));
+                    setInitialDate(new Date(year, month, day));
+                }
+            }
+        }
+    }, [urlParamData])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -33,7 +55,11 @@ function AvailabilityFilter() {
     }
 
     const saveButtonClicked = () => {
-        console.log("save button clicked")
+        setShowFilterPopup(false);
+        if (initialDate != selectedDate) {
+            router.query.date = selectedDate.getFullYear() + "-" + selectedDate.getMonth() + "-" + selectedDate.getDate();
+            router.push(router);
+        }
     }
 
     return (
