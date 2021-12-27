@@ -14,14 +14,23 @@ function AvailabilityFilter({ router }) {
     const urlParamData = useSelector(state => state.searchDetail.searchCalenderDate);
 
     const [showFilterPopup, setShowFilterPopup] = useState(false)
-    const [initialDate, setInitialDate] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const [dates, setDates] = useState({
+        initialDate: new Date(),
+        selectedDate: new Date()
+    })
+
     const now = new Date();
     const filterPopupRef = useRef(null);
     let filterButtonRef = useRef(null);
 
-    console.log("availibilty start")
-    console.log(selectedDate)
+    const setSelectedDate = (date) => {
+        console.log(date)
+        setDates({
+            ...dates,
+            selectedDate: date
+        })
+    }
 
     useEffect(() => {
         console.log(urlParamData)
@@ -31,14 +40,14 @@ function AvailabilityFilter({ router }) {
                 let year = arr[0];
                 let month = arr[1];
                 let day = arr[2];
-                if (year > initialDate.getFullYear() ||
-                    (year == initialDate.getFullYear() && month > initialDate.getMonth()) ||
-                    (year == initialDate.getFullYear() && month == initialDate.getMonth() && day > initialDate.getDate())) {
+                if (year > dates.initialDate.getFullYear() ||
+                    (year == dates.initialDate.getFullYear() && month > dates.initialDate.getMonth()) ||
+                    (year == dates.initialDate.getFullYear() && month == dates.initialDate.getMonth() && day > dates.initialDate.getDate())) {
                     let newDate = new Date(year, month, day)
-                    console.log("changing date");
-                    console.log(newDate)
-                    setSelectedDate(newDate);
-                    setInitialDate(newDate);
+                    setDates({
+                        initialDate: newDate,
+                        selectedDate: newDate
+                    })
                 }
             }
         }
@@ -59,37 +68,46 @@ function AvailabilityFilter({ router }) {
 
     // Update date when popup is closed
     useEffect(() => {
-        console.log("in showfilter effect")
-        console.log(selectedDate)
-        console.log(initialDate)
-        setSelectedDate(initialDate);
+        if (showFilterPopup) {
+            setDates({
+                ...dates,
+                selectedDate: dates.initialDate
+            })
+        }
     }, [showFilterPopup])
 
 
     const clearButtonClicked = () => {
-        setSelectedDate(initialDate)
+        setDates({
+            ...dates,
+            selectedDate: dates.initialDate
+        })
     }
 
     const saveButtonClicked = () => {
-        setInitialDate(selectedDate);
+        setDates({
+            ...dates,
+            initialDate: dates.selectedDate
+        })
         setShowFilterPopup(false);
-        if (initialDate != selectedDate) {
-            router.query.date = selectedDate.getFullYear() + "-" + selectedDate.getMonth() + "-" + selectedDate.getDate();
+        if (dates.initialDate != dates.selectedDate) {
+            router.query.date = dates.selectedDate.getFullYear() + "-" + dates.selectedDate.getMonth() + "-" + dates.selectedDate.getDate();
             router.push(router);
         }
     }
 
+
+
     return (
 
         <div className="relative inline">
-            {console.log("rending avaiblity 11")}
-            {console.log(selectedDate)}
-            <p>{selectedDate.getDate()}</p>
+
+
             <FilterButton
                 buttonText={uistring.searchFilters.availabilty}
                 onClick={() => { setShowFilterPopup(!showFilterPopup) }}
                 buttonRef={filterButtonRef}
-                isFilterApplied={now.getDate() != selectedDate.getDate()}
+                isFilterApplied={now.getDate() != dates.selectedDate.getDate()}
             />
 
             <div ref={filterPopupRef} className={`${showFilterPopup ? "inline-block " : "hidden "} absolute left-0 top-[54px] right-auto z-50 bg-white border-[0.5px] rounded-xl 
@@ -97,7 +115,7 @@ function AvailabilityFilter({ router }) {
                 <div className="block">
                     <div className="max-h-[calc(100vh-200px)] px-2 min-w-[320px] overflow-y-auto">
                         <Calendar
-                            date={selectedDate}
+                            date={dates.selectedDate}
                             onChange={setSelectedDate}
                             minDate={new Date()}
                             className="text-textColor-heavy !font-medium !text-base"
@@ -110,7 +128,7 @@ function AvailabilityFilter({ router }) {
                     {/* Clear save pane */}
                     <div className="flex justify-between py-3 px-[14px] border-t border-t-border-light items-center ">
                         <ClearSavePane
-                            isClearButtonDisbaled={initialDate.getDate() === selectedDate.getDate()}
+                            isClearButtonDisbaled={dates.initialDate.getDate() === dates.selectedDate.getDate()}
                             clearButtonClicked={clearButtonClicked}
                             saveButtonClicked={saveButtonClicked}
                         />
