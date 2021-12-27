@@ -6,6 +6,7 @@ import axios from 'axios'
 import SearchResultCard from "./SearchResultCard"
 import apis from '../../data/api.json'
 import { useSelector } from 'react-redux';
+import SearchResultPageNav from "./SearchResultPageNav"
 
 function isEmptyValues(obj) {
     for (let key in obj) {
@@ -112,6 +113,12 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                             </div>
                         </div>
                     </div>
+
+                    <SearchResultPageNav
+                        currentPage={data.data.page}
+                        totalResults={data.data.totalresults}
+                        resultcount={data.data.resultcount}
+                    />
 
 
                 </div>

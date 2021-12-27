@@ -32,7 +32,7 @@ module.exports = {
           heavy: '#333333',
           mildHeavy: "#484848",  //rgb(72,72,72)
           light: '#717171',    //rgb(113,113,113),
-          lightest: '#dddddd'
+          lightest: '#dddddd'  // rgb(221, 221, 221)
         },
         error: {
           type1: 'rgb(193, 53, 21)'
@@ -63,7 +63,8 @@ module.exports = {
         search: '0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%)',
         location: '2px 8px 16px rgb(0 0 0 / 20%), 2px 16px 32px rgb(0 0 0 / 15%)',
         locationResult: '0px 6px 20px rgb(0 0 0 / 20%)',
-        userDetailDropDown: '0px 6px 10px rgb(0 0 0 / 20%)'
+        userDetailDropDown: '0px 6px 10px rgb(0 0 0 / 20%)',
+        shadowForPrevNextButton: 'transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px'
       },
       transitionProperty: {
         width: 'width'
