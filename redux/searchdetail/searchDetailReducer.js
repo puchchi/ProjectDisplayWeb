@@ -20,7 +20,8 @@ const initialState = {
     searchMaxPrice: "",
     searchCalenderDate: "",
     searchMinCompletedProjects: "",
-    searchMinReview: ""
+    searchMinReview: "",
+    searchResultPage: ""
 }
 
 const searchDetailReducer = (state = initialState, action) => {
@@ -38,7 +39,8 @@ const searchDetailReducer = (state = initialState, action) => {
                 searchMaxPrice: action.payload.searchMaxPrice !== undefined ? action.payload.searchMaxPrice : "",
                 searchCalenderDate: action.payload.searchCalenderDate !== undefined ? action.payload.searchCalenderDate : "",
                 searchMinCompletedProjects: action.payload.searchMinCompletedProjects !== undefined ? action.payload.searchMinCompletedProjects : "",
-                searchMinReview: action.payload.searchMinReview !== undefined ? action.payload.searchMinReview : ""
+                searchMinReview: action.payload.searchMinReview !== undefined ? action.payload.searchMinReview : "",
+                searchResultPage: action.payload.searchResultPage !== undefined ? action.payload.searchResultPage : ""
             }
         // case SET_SEARCH_LOCATION:
         //     return {

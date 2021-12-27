@@ -27,7 +27,8 @@ function s() {
             max_price,
             date,
             min_completed_projects,
-            min_review
+            min_review,
+            page
         } = query
         
         const searchFilter ={
@@ -40,7 +41,8 @@ function s() {
             searchMaxPrice:max_price,
             searchCalenderDate:date,
             searchMinCompletedProjects:min_completed_projects,
-            searchMinReview:min_review
+            searchMinReview:min_review,
+            searchResultPage:page
         }
 
         dispatch(setSearchFilters(searchFilter))

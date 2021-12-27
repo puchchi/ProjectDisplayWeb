@@ -20,6 +20,9 @@ function AvailabilityFilter({ router }) {
     const filterPopupRef = useRef(null);
     let filterButtonRef = useRef(null);
 
+    console.log("availibilty start")
+    console.log(selectedDate)
+
     useEffect(() => {
         console.log(urlParamData)
         if (urlParamData !== undefined && urlParamData.length > 0) {
@@ -31,8 +34,11 @@ function AvailabilityFilter({ router }) {
                 if (year > initialDate.getFullYear() ||
                     (year == initialDate.getFullYear() && month > initialDate.getMonth()) ||
                     (year == initialDate.getFullYear() && month == initialDate.getMonth() && day > initialDate.getDate())) {
-                    setSelectedDate(new Date(year, month, day));
-                    setInitialDate(new Date(year, month, day));
+                    let newDate = new Date(year, month, day)
+                    console.log("changing date");
+                    console.log(newDate)
+                    setSelectedDate(newDate);
+                    setInitialDate(newDate);
                 }
             }
         }
@@ -43,7 +49,6 @@ function AvailabilityFilter({ router }) {
             if (filterPopupRef.current && !filterPopupRef.current.contains(event.target) &&
                 filterButtonRef.current && !filterButtonRef.current.contains(event.target)) {
                 setShowFilterPopup(false);
-                setSelectedDate(initialDate);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -51,6 +56,15 @@ function AvailabilityFilter({ router }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    // Update date when popup is closed
+    useEffect(() => {
+        console.log("in showfilter effect")
+        console.log(selectedDate)
+        console.log(initialDate)
+        setSelectedDate(initialDate);
+    }, [showFilterPopup])
+
 
     const clearButtonClicked = () => {
         setSelectedDate(initialDate)
@@ -66,7 +80,11 @@ function AvailabilityFilter({ router }) {
     }
 
     return (
+
         <div className="relative inline">
+            {console.log("rending avaiblity 11")}
+            {console.log(selectedDate)}
+            <p>{selectedDate.getDate()}</p>
             <FilterButton
                 buttonText={uistring.searchFilters.availabilty}
                 onClick={() => { setShowFilterPopup(!showFilterPopup) }}
