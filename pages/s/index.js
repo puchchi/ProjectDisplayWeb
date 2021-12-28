@@ -17,6 +17,9 @@ function s() {
     useEffect(() => {
         if (!router.isReady) return;
 
+        // This query is being used to get & set data from URL params.
+        // We use similar query for REST api call in SearchResult.js. If you make any
+        // change here, then make same change in SearchResult.js as well.
         const query = router.query
         const { place,
             service,
@@ -28,7 +31,8 @@ function s() {
             date,
             min_completed_projects,
             min_review,
-            page
+            page,
+            sortby
         } = query
         
         const searchFilter ={
@@ -42,7 +46,8 @@ function s() {
             searchCalenderDate:date,
             searchMinCompletedProjects:min_completed_projects,
             searchMinReview:min_review,
-            searchResultPage:page
+            searchResultPage:page,
+            searchSortByOption:sortby
         }
 
         dispatch(setSearchFilters(searchFilter))

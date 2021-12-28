@@ -196,7 +196,8 @@ function Header({ showPlaceAndCategoryInSearchBar = false }) {
                     service: servicesWidgetValue,
                     lat: locationCoordinates.lat,
                     lng: locationCoordinates.lng,
-                    page: 1
+                    page: 1,
+                    sortby: "popularity"
                 },
             });
         }

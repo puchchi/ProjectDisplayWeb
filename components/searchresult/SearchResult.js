@@ -36,7 +36,8 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
             searchCalenderDate: "date",
             searchMinCompletedProjects: "min_completed_projects",
             searchMinReview: "min_review",
-            searchResultPage: "page"
+            searchResultPage: "page",
+            searchSortByOption: "sortby"
         }
         const qs = Object.keys(queryKey[0])
             .map(key => `${searchFilter[key]}=${queryKey[0][key]}`)

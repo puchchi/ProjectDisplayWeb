@@ -73,6 +73,11 @@
         "averagePrice": "The average nightly price is ",
         "rupeeSymbol": "₹",
         "minPrice": "min price",
-        "maxPrice": "max price"
+        "maxPrice": "max price",
+        "sort": "Sort",
+        "relevance": "Relevance",
+        "popularity":"Popularity",
+        "priceLowToHigh": "Price Low to High",
+        "priceHighToLow": "Price High to Low"
     }
 }
