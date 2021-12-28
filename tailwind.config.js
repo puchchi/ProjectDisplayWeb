@@ -36,6 +36,9 @@ module.exports = {
         },
         error: {
           type1: 'rgb(193, 53, 21)'
+        },
+        loading:{
+          DEFAULT: 'rgb(229, 231, 235)'
         }
       },
       maxWidth: {

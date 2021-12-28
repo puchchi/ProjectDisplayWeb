@@ -7,7 +7,12 @@ import uistring from '../../data/uistring.json'
 import { IoHeartOutline } from "react-icons/io5";
 
 const imageWidth = 300;
+const imageWidthPx = "w-[300px]";
 const imageHeight = 200;
+const imageHeightPx = "h-[200px]";
+
+const imageHeightSm = 300;
+const imageHeightSmPx = "h-[300px]";
 
 function carouselArrowHidden({ type, onClick, isEdge }) {
 
@@ -112,12 +117,12 @@ function carouselDots({ pages, activePage, onClick }) {
 
 function ImageCard({ image }) {
     return (
-        <div className="rounded-xl overflow-hidden relative h-[200px] w-[300px]
-        border border-border-dark">
+        <div className={`rounded-xl overflow-hidden relative ${imageHeightPx} ${imageWidthPx}
+        border border-border-dark`}>
             <Link href="/">
                 <Image src={image}
                     width={imageWidth}
-                    height={200}
+                    height={imageHeight}
                     objectFit="cover"
                 />
             </Link>
@@ -127,8 +132,8 @@ function ImageCard({ image }) {
 
 function ImageCardSM({ image }) {
     return (
-        <div className="rounded-xl overflow-hidden relative h-[300px] w-full
-        border border-border-dark">
+        <div className={`rounded-xl overflow-hidden relative ${imageHeightSmPx} w-full
+        border border-border-dark`}>
             <Link href="/">
                 <Image src={image}
                     layout="fill"
@@ -139,101 +144,145 @@ function ImageCardSM({ image }) {
     )
 }
 
-function SearchResultCard({ images, name, packages, price, desc, about }) {
-    const [showCarousel, setShowCarousel] = useState(false)
-
+function SearchResultPlaceholderCard() {
     return (
-        <>
+        <div>
+            <div class="rounded-md w-full mx-auto">
+                <div class="animate-pulse flex flex-col sm:flex-row gap-4 ">
+                    <div class={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} ${imageWidthPx} sm:inline-block hidden`}></div>
+                    <div class={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} w-full sm:hidden`}></div>
+                    <div class="flex flex-col flex-grow gap-3">
+                        <div className="flex flex-col gap-2">
+                            <div class="h-4 bg-loading rounded-lg w-[40%]"></div>
+                            <div class="h-8 bg-loading rounded-lg w-[90%]"></div>
+                        </div>
 
-            <div className="flex flex-col sm:flex-row pl-[10px] cursor-pointer"
-                onMouseEnter={() => {
-                    setShowCarousel(true);
-                }} onMouseLeave={() => setShowCarousel(false)} >
+                        <div className="hidden sm:inline-block w-8 border-t-textColor-lightest border-t"></div>
+                        <div class="flex-col gap-2 hidden sm:flex">
 
-                {/* Search result image */}
-                <div className={`w-[300px] rounded-xl flex-shrink-0 hidden sm:inline-block`} >
-                    <Carousel
-                        itemsToShow={1}
-                        pagination={true}
-                        renderArrow={showCarousel ? carouselArrow : carouselArrowHidden}
-                        renderPagination={carouselDots}
-                        itemPadding={[0, 0, 0, 0]}
-                    >
-                        {
-                            images.map((image, index) =>
-                                <ImageCard
-                                    key={index}
-                                    image={image}
-                                />
-                            )
-                        }
-                    </Carousel>
-                </div>
+                            <div class="h-5 bg-loading rounded-lg w-[60%]"></div>
+                            <div class="h-5 bg-loading rounded-lg w-[50%]"></div>
+                        </div>
 
-                <div className={`w-full rounded-xl flex-shrink-0 inline-block sm:hidden`} >
-                    <Carousel
-                        itemsToShow={1}
-                        pagination={true}
-                        renderArrow={showCarousel ? carouselArrow : carouselArrowHidden}
-                        renderPagination={carouselDots}
-                        itemPadding={[0, 0, 0, 0]}
-                    >
-                        {
-                            images.map((image, index) =>
-                                <ImageCardSM
-                                    key={index}
-                                    image={image}
-                                />
-                            )
-                        }
-                    </Carousel>
-                </div>
+                        <div className="flex items-end flex-grow self-end mb-4 sm:mb-0 w-full">
 
-                {/* Search details */}
-                <div className="flex flex-col sm:h-[200px] ml-4 flex-grow ">
-                    <div className="flex items-start">
-                        <div className="mr-4 flex-grow flex-shrink tracking-wide">
-                            <div className="mb-1 text-sm items-center flex w-full text-textColor-light">
-                                {desc}
-                            </div>
-                            <div className="flex items-center">
-                                <span className="text-lg overflow-hidden max-h-8 overflow-ellipsis text-textColor-extraHeavy">
-                                    {name}
-                                </span>
+                            {/* price */}
+                            <div className=" flex flex-col items-end  w-full gap-1  ">
+                                <div class="h-5 bg-loading rounded-lg w-[20%]"></div>
+                                <div class="h-5 bg-loading rounded-lg w-[20%]"></div>
+
                             </div>
                         </div>
-                        {/* Wishlist button */}
-                        <button type="button" className="inline-block text-textColor-extraHeavy cursor-pointer relative
-                        bg-transparent hover:bg-background-light active:scale-90 transition-all rounded-full p-3 mr-[-6px]">
-                            <IoHeartOutline className="h-7 w-7 text-textColor-extraHeavy stroke overflow-visible" />
-                        </button>
-
                     </div>
-
-                    <div className="mt-3 hidden sm:inline-block w-8 border-t-textColor-lightest border-t"></div>
-                    <div className="mt-2 hidden sm:inline-block overflow-hidden text-textColor-light text-sm font-normal max-w-[80%] max-h-11 overflow-clip">
-                        {about}
-                    </div>
-
-                    <div className="flex items-end flex-grow self-end mb-4 sm:mb-0">
-
-                        {/* price */}
-                        <div className=" flex flex-col items-end    ">
-                            <div>
-                                <span className="text-lg font-medium text-textColor-extraHeavy">{uistring.searchFilters.rupeeSymbol} {price} </span>
-                                <span className="text-lg font-normal text-textColor-light"> / day</span>
-                            </div>
-                            <span className="text-base text-textColor-light">Photos+Videos</span>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-            <div className="mb-4 border-b border-b-border-light" />
-        </>
+            <div className="my-4 border-b border-b-border-light" />
+        </div>
     )
+}
+
+function SearchResultCard({ isPlaceholder, images, name, packages, price, desc, about }) {
+    const [showCarousel, setShowCarousel] = useState(false)
+
+    if (isPlaceholder) {
+        return SearchResultPlaceholderCard();
+    }
+    else {
+        return (
+            <>
+
+                <div className="flex flex-col sm:flex-row pl-[10px] cursor-pointer"
+                    onMouseEnter={() => {
+                        setShowCarousel(true);
+                    }} onMouseLeave={() => setShowCarousel(false)} >
+
+                    {/* Search result image */}
+                    {/* for bigger screen */}
+                    <div className={`w-[300px] rounded-xl flex-shrink-0 hidden sm:inline-block`} >
+                        <Carousel
+                            itemsToShow={1}
+                            pagination={true}
+                            renderArrow={showCarousel ? carouselArrow : carouselArrowHidden}
+                            renderPagination={carouselDots}
+                            itemPadding={[0, 0, 0, 0]}
+                        >
+                            {
+                                images.map((image, index) =>
+                                    <ImageCard
+                                        key={index}
+                                        image={image}
+                                    />
+                                )
+                            }
+                        </Carousel>
+                    </div>
+
+                    <div className={`w-full rounded-xl flex-shrink-0 inline-block sm:hidden`} >
+                        <Carousel
+                            itemsToShow={1}
+                            pagination={true}
+                            renderArrow={showCarousel ? carouselArrow : carouselArrowHidden}
+                            renderPagination={carouselDots}
+                            itemPadding={[0, 0, 0, 0]}
+                        >
+                            {
+                                images.map((image, index) =>
+                                    <ImageCardSM
+                                        key={index}
+                                        image={image}
+                                    />
+                                )
+                            }
+                        </Carousel>
+                    </div>
+
+                    {/* Search details */}
+                    <div className="flex flex-col sm:h-[200px] ml-4 flex-grow ">
+                        <div className="flex items-start">
+                            <div className="mr-4 flex-grow flex-shrink tracking-wide">
+                                <div className="mb-1 text-sm items-center flex w-full text-textColor-light">
+                                    {desc}
+                                </div>
+                                <div className="flex items-center">
+                                    <span className="text-lg overflow-hidden max-h-8 overflow-ellipsis text-textColor-extraHeavy">
+                                        {name}
+                                    </span>
+                                </div>
+                            </div>
+                            {/* Wishlist button */}
+                            <button type="button" className="inline-block text-textColor-extraHeavy cursor-pointer relative
+                        bg-transparent hover:bg-background-light active:scale-90 transition-all rounded-full p-3 mr-[-6px]">
+                                <IoHeartOutline className="h-7 w-7 text-textColor-extraHeavy stroke overflow-visible" />
+                            </button>
+
+                        </div>
+
+                        <div className="mt-3 hidden sm:inline-block w-8 border-t-textColor-lightest border-t"></div>
+                        <div className="mt-2 hidden sm:inline-block overflow-hidden text-textColor-light text-sm font-normal max-w-[80%] max-h-11 overflow-clip">
+                            {about}
+                        </div>
+
+                        <div className="flex items-end flex-grow self-end mb-4 sm:mb-0">
+
+                            {/* price */}
+                            <div className=" flex flex-col items-end    ">
+                                <div>
+                                    <span className="text-lg font-medium text-textColor-extraHeavy">{uistring.searchFilters.rupeeSymbol} {price} </span>
+                                    <span className="text-lg font-normal text-textColor-light"> / day</span>
+                                </div>
+                                <span className="text-base text-textColor-light">Photos+Videos</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="mb-4 border-b border-b-border-light" />
+            </>
+        )
+    }
 }
 
 export default SearchResultCard
