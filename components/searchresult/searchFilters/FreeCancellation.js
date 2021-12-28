@@ -10,8 +10,8 @@ function FreeCancellation() {
     const cancellationPolicy = useSelector(state => state.searchDetail.searchCancellationPolicy);
 
     const [freeCancellationToggleButton, setToggleButtonState] = useState({
-        initialValue: false,
-        currentValue: false
+        initialValue: cancellationPolicy.length != 0,
+        currentValue: cancellationPolicy.length != 0
     });
     const [showFilterPopup, setShowFilterPopup] = useState(false);
 

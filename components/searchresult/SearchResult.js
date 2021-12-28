@@ -25,6 +25,7 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
 
     const { isLoading, data } = useQuery([searchDetail], async ({ queryKey }) => {
 
+        // Get this query from router
         const searchFilter = {
             searchLocation: "place",
             searchService: "service",
@@ -53,6 +54,11 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
         }
     )
 
+    let placeholderComponentArray = new Array(maxNoOfResult);
+    for (let i = 0; i < maxNoOfResult; i++) {
+        placeholderComponentArray[i] = i;
+    }
+
     return (
 
         <div className="mt-miniHeader relative px-customSm md:px-customMd mx-auto max-w-custom">
@@ -80,9 +86,10 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                         {/* search result */}
                         <div className="flex-grow">
                             {isLoading || data == undefined ?
-                                Array(maxNoOfResult).fill(0).map((d) =>
+
+                                placeholderComponentArray.map((d) =>
                                     <SearchResultCard
-                                        key={d.id}
+                                        key={d}
                                         isPlaceholder={true}
                                     />
                                 )

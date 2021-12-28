@@ -25,7 +25,7 @@ function PriceInputField({ title, minPrice, onChange }) {
                         <span>{uistring.searchFilters.rupeeSymbol}</span>
                     </div>
                     <input type="text" className="w-full mt-[26px] mx-3 mb-[10px]
-                                                min-h-[1px] appearance-none outline-none" value={minPrice} onChange={onChange}  />
+                                                min-h-[1px] appearance-none outline-none" value={minPrice} onChange={onChange} />
                 </div>
             </label>
         </div>
@@ -84,11 +84,12 @@ export class PriceFilterClassComp extends Component {
         this.onMinPriceChangeMain = this.onMinPriceChangeMain.bind(this);
         this.onMaxPriceChange = this.onMaxPriceChange.bind(this);
         this.onMaxPriceChangeMain = this.onMaxPriceChangeMain.bind(this);
+        this.openPopup = this.openPopup.bind(this);
+        this.updateMinMaxPriceFromURL = this.updateMinMaxPriceFromURL.bind(this);
 
         this.filterPopupRef = React.createRef();
         this.filterButtonRef = React.createRef();
         this.sliderRef = React.createRef();
-
 
     }
 
@@ -98,6 +99,7 @@ export class PriceFilterClassComp extends Component {
     handleClickOutside = (event) => {
         if ((this.filterPopupRef.current && !this.filterPopupRef.current.contains(event.target)) &&
             (this.filterButtonRef.current && !this.filterButtonRef.current.contains(event.target))) {
+            console.log(this.state)
             this.setState({
                 ...this.state,
                 leftButtonPosition: this.state.initialLeftButtonPosition,
@@ -106,16 +108,24 @@ export class PriceFilterClassComp extends Component {
                 maxPrice: this.state.initialMaxPrice,
                 showFilterPopup: false
             })
+            document.removeEventListener("mousedown", this.handleClickOutside);
         }
     }
 
     componentDidMount() {
-        document.addEventListener("mousedown", this.handleClickOutside);
+        this.updateMinMaxPriceFromURL();
     }
 
     componentDidUpdate() {
+        this.updateMinMaxPriceFromURL();
+    }
+
+    componentWillUnmount() {
+    }
+
+    updateMinMaxPriceFromURL() {
         let maxPriceFromURL = parseInt(this.props.maxPrice);
-        if (this.state.maxPriceFromURL != this.props.maxPrice) {
+        if (this.state.maxPriceFromURL != maxPriceFromURL) {
             if (maxPriceFromURL < this.state.maxPrice) {
                 this.onMaxPriceChangeMain(maxPriceFromURL, true);
             }
@@ -128,11 +138,6 @@ export class PriceFilterClassComp extends Component {
             }
         }
     }
-
-    componentWillUnmount() {
-        document.removeEventListener("mousedown", this.handleClickOutside);
-    }
-
 
     handleMouseUpLeft = (e) => {
         window.removeEventListener('mousemove', this.handleMouseMoveLeft);
@@ -223,7 +228,7 @@ export class PriceFilterClassComp extends Component {
     }
 
     onMinPriceChangeMain = (newMinPrice, changeInitial = false) => {
-        
+
         if (this.state.initialMinPrice != this.state.originalMaxPrice) {
             let newLeftPosition = (newMinPrice / (this.state.originalMaxPrice - this.state.originalMinPrice)) * 100;
             if (newLeftPosition >= 0 && newLeftPosition <= this.state.rightButtonPosition) {
@@ -304,33 +309,34 @@ export class PriceFilterClassComp extends Component {
             initialRightButtonPosition: this.state.rightButtonPosition
         })
 
-        if (this.state.minPriceFromURL != this.state.minPrice || this.state.maxPriceFromURL != this.state.maxPrice){
+        if (this.state.minPriceFromURL != this.state.minPrice || this.state.maxPriceFromURL != this.state.maxPrice) {
             this.props.router.query.min_price = this.state.minPrice;
-            this.props.router.query.max_price=this.state.maxPrice;
+            this.props.router.query.max_price = this.state.maxPrice;
             this.props.router.push(this.props.router);
         }
-        
+
     }
 
+    openPopup = () => {
+        this.setState(
+            {
+                ...this.state,
+                showFilterPopup: !this.state.showFilterPopup
+            }
+        )
+        document.addEventListener("mousedown", this.handleClickOutside);
+    }
 
     render() {
- 
         return (
             <div className="relative inline">
                 <FilterButton
                     buttonText={uistring.searchFilters.price}
-                    onClick={() => {
-                        this.setState(
-                            {
-                                ...this.state,
-                                showFilterPopup: !this.state.showFilterPopup
-                            }
-                        )
-                    }}
+                    onClick={() => this.openPopup()}
 
                     buttonRef={this.filterButtonRef}
                     isFilterApplied={this.state.originalMinPrice != this.state.minPrice ||
-                        this.state.originalMaxPrice != this.state.maxPrice || this.showFilterPopup}
+                        this.state.originalMaxPrice != this.state.maxPrice || this.state.showFilterPopup}
                 />
 
                 {/* Free cancellation popup */}

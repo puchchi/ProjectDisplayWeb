@@ -147,29 +147,29 @@ function ImageCardSM({ image }) {
 function SearchResultPlaceholderCard() {
     return (
         <div>
-            <div class="rounded-md w-full mx-auto">
-                <div class="animate-pulse flex flex-col sm:flex-row gap-4 ">
-                    <div class={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} ${imageWidthPx} sm:inline-block hidden`}></div>
-                    <div class={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} w-full sm:hidden`}></div>
-                    <div class="flex flex-col flex-grow gap-3">
+            <div className="rounded-md w-full mx-auto">
+                <div className="animate-pulse flex flex-col sm:flex-row gap-4 ">
+                    <div className={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} ${imageWidthPx} sm:inline-block hidden`}></div>
+                    <div className={`rounded-3xl bg-loading flex-shrink-0 ${imageHeightPx} w-full sm:hidden`}></div>
+                    <div className="flex flex-col flex-grow gap-3">
                         <div className="flex flex-col gap-2">
-                            <div class="h-4 bg-loading rounded-lg w-[40%]"></div>
-                            <div class="h-8 bg-loading rounded-lg w-[90%]"></div>
+                            <div className="h-4 bg-loading rounded-lg w-[40%]"></div>
+                            <div className="h-8 bg-loading rounded-lg w-[90%]"></div>
                         </div>
 
                         <div className="hidden sm:inline-block w-8 border-t-textColor-lightest border-t"></div>
-                        <div class="flex-col gap-2 hidden sm:flex">
+                        <div className="flex-col gap-2 hidden sm:flex">
 
-                            <div class="h-5 bg-loading rounded-lg w-[60%]"></div>
-                            <div class="h-5 bg-loading rounded-lg w-[50%]"></div>
+                            <div className="h-5 bg-loading rounded-lg w-[60%]"></div>
+                            <div className="h-5 bg-loading rounded-lg w-[50%]"></div>
                         </div>
 
                         <div className="flex items-end flex-grow self-end mb-4 sm:mb-0 w-full">
 
                             {/* price */}
                             <div className=" flex flex-col items-end  w-full gap-1  ">
-                                <div class="h-5 bg-loading rounded-lg w-[20%]"></div>
-                                <div class="h-5 bg-loading rounded-lg w-[20%]"></div>
+                                <div className="h-5 bg-loading rounded-lg w-[20%]"></div>
+                                <div className="h-5 bg-loading rounded-lg w-[20%]"></div>
 
                             </div>
                         </div>
