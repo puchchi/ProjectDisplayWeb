@@ -17,9 +17,6 @@ function s() {
     useEffect(() => {
         if (!router.isReady) return;
 
-        // This query is being used to get & set data from URL params.
-        // We use similar query for REST api call in SearchResult.js. If you make any
-        // change here, then make same change in SearchResult.js as well.
         const query = router.query
         const { place,
             service,

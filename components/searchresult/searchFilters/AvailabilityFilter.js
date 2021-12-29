@@ -25,7 +25,6 @@ function AvailabilityFilter({ router }) {
     let filterButtonRef = useRef(null);
 
     const setSelectedDate = (date) => {
-        console.log(date)
         setDates({
             ...dates,
             selectedDate: date
@@ -33,7 +32,6 @@ function AvailabilityFilter({ router }) {
     }
 
     useEffect(() => {
-        console.log(urlParamData)
         if (urlParamData !== undefined && urlParamData.length > 0) {
             const arr = urlParamData.split("-");
             if (arr.length == 3) {

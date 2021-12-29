@@ -7,47 +7,34 @@ import SearchResultCard from "./SearchResultCard"
 import apis from '../../data/api.json'
 import { useSelector } from 'react-redux';
 import SearchResultPageNav from "./SearchResultPageNav"
+import { useRouter } from 'next/router';
 
 const maxNoOfResult = 20;
 
 function isEmptyValues(obj) {
     for (let key in obj) {
-        if (obj[key].length > 0)
+        if (obj[key].length > 0) {
             return false;
+        }
     }
-
     return true;
 }
 
 function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue }) {
 
-    const searchDetail = useSelector(state => state.searchDetail)
+    const router = useRouter();
+    const routerQuery = router.query;
 
-    const { isLoading, data } = useQuery([searchDetail], async ({ queryKey }) => {
+    const { isLoading, data } = useQuery([routerQuery], async ({ queryKey }) => {
 
-        // Get this query from router
-        const searchFilter = {
-            searchLocation: "place",
-            searchService: "service",
-            searchLat: "lat",
-            searchLng: "lng",
-            searchCancellationPolicy: "cancellation_policy",
-            searchMinPrice: "min_price",
-            searchMaxPrice: "max_price",
-            searchCalenderDate: "date",
-            searchMinCompletedProjects: "min_completed_projects",
-            searchMinReview: "min_review",
-            searchResultPage: "page",
-            searchSortByOption: "sortby"
-        }
         const qs = Object.keys(queryKey[0])
-            .map(key => `${searchFilter[key]}=${queryKey[0][key]}`)
+            .map(key => `${key}=${queryKey[0][key]}`)
             .join('&');
 
         return await axios.get(apis.photographers + "?" + qs);
     },
         {
-            enabled: isEmptyValues(searchDetail) === false,
+            enabled: isEmptyValues(routerQuery) === false,
             refetchInterval: false,
             refetchIntervalInBackground: false,
             refetchOnWindowFocus: false
