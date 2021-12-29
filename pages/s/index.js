@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 
 import Header from '../../components/header/Header'
+import Footer from '../../components/Footer'
 import SearchResult from '../../components/searchresult/SearchResult';
 import { setSearchFilters } from '../../redux';
 
@@ -56,7 +57,7 @@ function s() {
                 showPlaceAndCategoryInSearchBar={true}
             />
             <SearchResult />
-            <EditorsPick />
+            <Footer fixedFooter={false} />
         </>
     )
 }

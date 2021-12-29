@@ -6,8 +6,9 @@ import { setUserLoggedIn, setUserLoggedOut } from '../../redux';
 
 import LoginSignupModal from "../loginsignup/LoginSignupModal";
 import Modal from 'react-modal';
+import LoginSignupModalOpener from '../loginsignup/LoginSignupModalOpener';
 
-Modal.setAppElement('#__next')
+
 function UserLoginDetails(props) {
 
     // Data from redux store
@@ -31,13 +32,11 @@ function UserLoginDetails(props) {
         }, [ref]);
     }
 
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [isModal2Open, setIsModal2Open] = useState(false)
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
     const openModal = () => {
         props.setHideUserDetailDown();
-        setIsModalOpen(true);
-        setIsModal2Open(false);
+        setIsLoginModalOpen(true);
     }
 
     function afterOpenModal() {
@@ -45,13 +44,8 @@ function UserLoginDetails(props) {
 
     }
 
-    const closeModal = () => {
-        if (isModal2Open) {
-            setIsModal2Open(false);
-        }
-        else {
-            setIsModalOpen(false);
-        }
+    const closeModal = ()=>{
+        setIsLoginModalOpen(false);
     }
 
     clickedOutsideOfRef(userDetailDropDownRef);
@@ -81,26 +75,11 @@ function UserLoginDetails(props) {
                 </section>
             </div>
 
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                contentLabel="signup-login-modal"
-                className={
-                    {
-                        base: "modal-classname",
-                        afterOpen: "modal-classname-after-open",
-                        beforeClose: "modal-classname-before-close"
-                    }
-                }
-                overlayClassName="modal-overlay-classname"
-            >
-                <LoginSignupModal
-                    closeModal={closeModal}
-                    isModal2Open={isModal2Open}
-                    setIsModal2Open={setIsModal2Open}
-                />
+            <LoginSignupModalOpener
+                isLoginModalOpen={isLoginModalOpen}
+                loginModalClosedCallback={closeModal}
+            />
 
-            </Modal>
         </>
     )
 }

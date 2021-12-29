@@ -81,7 +81,7 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                                     />
                                 )
                                 :
-                                data.data.photographers.map((d) =>
+                                data.data.profiles.map((d) =>
                                     <SearchResultCard
                                         key={d.id}
                                         isPlaceholder={false}
@@ -91,6 +91,8 @@ function SearchResult({ serachedLocationWidgetValue, searchedServicesWidgetValue
                                         package={d.packages}
                                         price={d.price}
                                         about={d.about}
+                                        profileType={d.type}
+                                        profileId={d.id}
                                     />
                                 )
 
